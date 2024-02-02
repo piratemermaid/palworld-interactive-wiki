@@ -5,7 +5,9 @@ import { Card, Grid, Typography } from '@mui/material';
 import WorkSuitabilityImage from './WorkSuitabilityImage';
 import PAL_WORK_SUITABILITY from '../data/palWorkSuitability';
 import { WORK_SUITABILITY_TYPES } from '../constants/workSuitability';
+import { filterObject } from '../utils/object';
 import type {
+  PalWorkSuitability,
   PalWorkSuitabilityList,
   WorkSuitability,
 } from '../types/workSuitability';
@@ -46,6 +48,16 @@ export default function PalWorkSuitability() {
     setFilters({ ...filters, [filterName]: newFilters });
   };
 
+  const palsToDisplay = filters.workSuitability.length
+    ? filterObject(
+        PAL_WORK_SUITABILITY,
+        (workSuitability: PalWorkSuitability[]) =>
+          workSuitability.find((palWork) =>
+            filters.workSuitability.includes(palWork.name),
+          ),
+      )
+    : PAL_WORK_SUITABILITY;
+
   return (
     <Grid container direction="column" spacing={3}>
       <Grid item>
@@ -76,7 +88,7 @@ export default function PalWorkSuitability() {
       <Grid item>
         <Grid container spacing={2} alignItems="stretch">
           {map(
-            PAL_WORK_SUITABILITY,
+            palsToDisplay,
             (palWorkSuitability: PalWorkSuitabilityList[], palName: string) => {
               return (
                 <Grid item key={palName} lg={2} md={3} sm={4} xs={12}>
