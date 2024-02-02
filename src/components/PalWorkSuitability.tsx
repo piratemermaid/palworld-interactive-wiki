@@ -58,7 +58,17 @@ export default function PalWorkSuitability() {
         </Typography>
         {WORK_SUITABILITY_TYPES.map((name) => (
           <span onClick={() => handleSelectFilter('workSuitability', name)}>
-            <WorkSuitabilityImage name={name} isHoverable={true} />
+            <WorkSuitabilityImage
+              name={name}
+              customStyles={{
+                cursor: 'pointer',
+                opacity:
+                  !filters.workSuitability.length ||
+                  filters.workSuitability.includes(name)
+                    ? 1
+                    : 0.5,
+              }}
+            />
           </span>
         ))}
       </Grid>

@@ -1,26 +1,25 @@
+import { CSSProperties } from 'react';
 import type { WorkSuitability } from '../types/workSuitability';
 
 type Props = {
   name: WorkSuitability;
   size?: number;
-  isHoverable?: boolean;
+  customStyles?: CSSProperties;
 };
 
 export default function WorkSuitabilityImage({
   name,
   size,
-  isHoverable,
+  customStyles,
 }: Props) {
   const sizeStyle = size ? { height: size, width: size } : {};
-
-  const hoverStyle = isHoverable ? { cursor: 'pointer' } : {};
 
   return (
     <img
       src={`/images/workSuitability/${name.replaceAll(' ', '_')}_Icon.webp`}
       title={name}
       alt={name}
-      style={{ ...sizeStyle, ...hoverStyle }}
+      style={{ ...sizeStyle, ...customStyles }}
     />
   );
 }
