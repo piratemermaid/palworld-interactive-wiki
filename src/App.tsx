@@ -1,11 +1,10 @@
-import { Typography } from '@mui/material';
-
+import PalWorkSkills from './components/PalWorkSkills';
 import './App.css';
 
 function App() {
   return (
     <>
-      <Typography variant="h1">Hello World</Typography>
+      <PalWorkSkills />
     </>
   );
 }
