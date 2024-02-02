@@ -17,6 +17,7 @@ const darkTheme = createTheme({
   },
   typography: {
     h2: { fontSize: 30, color: grey[500] },
+    h3: { fontSize: 24, color: red[300], textTransform: 'uppercase' },
     h6: { color: indigo[300] },
   },
   components: {

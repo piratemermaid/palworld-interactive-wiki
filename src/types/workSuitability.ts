@@ -1,16 +1,6 @@
-export type WorkSuitability =
-  | 'Kindling'
-  | 'Planting'
-  | 'Handiwork'
-  | 'Lumbering'
-  | 'Medicine Production'
-  | 'Transporting'
-  | 'Watering'
-  | 'Generating Electricity'
-  | 'Gathering'
-  | 'Mining'
-  | 'Cooling'
-  | 'Farming';
+import { WORK_SUITABILITY_TYPES } from '../constants/workSuitability';
+
+export type WorkSuitability = (typeof WORK_SUITABILITY_TYPES)[number];
 
 type PalWorkSuitability = {
   name: WorkSuitability;

@@ -3,24 +3,36 @@ import { Card, Grid, Typography } from '@mui/material';
 
 import PAL_WORK_SUITABILITY from '../data/palWorkSuitability';
 import type { PalWorkSuitabilityList } from '../types/workSuitability';
+import { WORK_SUITABILITY_TYPES } from '../constants/workSuitability';
+import WorkSuitabilityImage from './WorkSuitabilityImage';
 
 export default function PalWorkSuitability() {
   return (
-    <>
-      <Typography variant="h2" sx={{ mb: 4 }}>
-        Pal Work Suitability
-      </Typography>
-      <Grid container spacing={2} alignItems="stretch">
-        {map(
-          PAL_WORK_SUITABILITY,
-          (palWorkSuitability: PalWorkSuitabilityList[], palName: string) => {
-            return (
-              <Grid item key={palName} lg={2} md={3} sm={4} xs={12}>
-                <Card sx={{ p: 2, height: '100%' }}>
-                  <Typography variant="h6">{palName}</Typography>
-                  {palWorkSuitability.map(
-                    ({ name: typedName, level, product }) => {
-                      const name = String(typedName);
+    <Grid container direction="column" spacing={3}>
+      <Grid item>
+        <Typography variant="h2">Pal Work Suitability</Typography>
+      </Grid>
+
+      <Grid item>
+        <Typography variant="h3" sx={{ mb: 1 }}>
+          Filters
+        </Typography>
+        {WORK_SUITABILITY_TYPES.map((name) => (
+          <WorkSuitabilityImage name={name} isHoverable={true} />
+        ))}
+      </Grid>
+
+      <Grid item>
+        <Grid container spacing={2} alignItems="stretch">
+          {map(
+            PAL_WORK_SUITABILITY,
+            (palWorkSuitability: PalWorkSuitabilityList[], palName: string) => {
+              return (
+                <Grid item key={palName} lg={2} md={3} sm={4} xs={12}>
+                  <Card sx={{ p: 2, height: '100%' }}>
+                    <Typography variant="h6">{palName}</Typography>
+                    {palWorkSuitability.map(({ name, level, product }) => {
+                      const untypedName = String(name);
 
                       return (
                         <Grid container spacing={0.5}>
@@ -29,35 +41,28 @@ export default function PalWorkSuitability() {
                           </Grid>
                           <Grid item sx={{ width: 32 }}>
                             <Typography
-                              key={name}
+                              key={untypedName}
                               variant="body1"
                               sx={{ textAlign: 'left' }}
                             >
-                              <img
-                                src={`/images/workSuitability/${name.replaceAll(' ', '_')}_Icon.webp`}
-                                title={name}
-                                alt={name}
-                                style={{
-                                  height: 26,
-                                  width: 26,
-                                }}
-                              />
+                              {/* @ts-expect-error - TS why are you like this */}
+                              <WorkSuitabilityImage name={name} size={26} />
                             </Typography>
                           </Grid>
                           <Grid item>
-                            {name}
+                            {untypedName}
                             {product ? ` (${product})` : null}
                           </Grid>
                         </Grid>
                       );
-                    },
-                  )}
-                </Card>
-              </Grid>
-            );
-          },
-        )}
+                    })}
+                  </Card>
+                </Grid>
+              );
+            },
+          )}
+        </Grid>
       </Grid>
-    </>
+    </Grid>
   );
 }
