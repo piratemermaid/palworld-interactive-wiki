@@ -26,20 +26,24 @@ export default function PalWorkSuitability() {
   });
 
   const handleSelectFilter = (
+    event: React.MouseEvent,
     filterName: FilterName,
-    value: WorkSuitability | number,
+    value: any,
   ) => {
+    const selectMultiple = event.shiftKey;
+
     const currentFilters = filters[filterName];
 
     let newFilters = currentFilters;
 
     if (!currentFilters.length) {
-      // @ts-expect-error - I regret using TS in this project
       newFilters = [value];
       // @ts-expect-error
     } else if (currentFilters.includes(value)) {
       // @ts-expect-error
       newFilters = currentFilters.filter((filter) => filter !== value);
+    } else if (!selectMultiple) {
+      newFilters = [value];
     } else {
       // @ts-expect-error
       newFilters.push(value);
@@ -69,7 +73,11 @@ export default function PalWorkSuitability() {
           Filters
         </Typography>
         {WORK_SUITABILITY_TYPES.map((name) => (
-          <span onClick={() => handleSelectFilter('workSuitability', name)}>
+          <span
+            onClick={(event) =>
+              handleSelectFilter(event, 'workSuitability', name)
+            }
+          >
             <WorkSuitabilityImage
               name={name}
               customStyles={{
