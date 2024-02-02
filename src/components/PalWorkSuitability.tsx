@@ -15,17 +15,33 @@ export default function PalWorkSuitability() {
             return (
               <Grid item key={palName} lg={2} md={3} sm={4} xs={12}>
                 <Typography variant="h6">{palName}</Typography>
-                {palWorkSuitability.map((workSuitability) => {
-                  return (
-                    // @ts-expect-error - bruh idk what TS is doing here
-                    <Typography variant="body1" key={workSuitability.name}>
-                      {workSuitability.name} {workSuitability.level}{' '}
-                      {workSuitability.product
-                        ? `(${workSuitability.product})`
-                        : null}
-                    </Typography>
-                  );
-                })}
+                {palWorkSuitability.map(
+                  ({ name: typedName, level, product }) => {
+                    const name = String(typedName);
+
+                    return (
+                      <Typography
+                        key={name}
+                        variant="body1"
+                        sx={{ textAlign: 'left' }}
+                      >
+                        <img
+                          src={`/images/workSuitability/${name.replaceAll(' ', '_')}_Icon.webp`}
+                          title={name}
+                          alt={name}
+                          style={{
+                            height: 26,
+                            width: 26,
+                            position: 'relative',
+                            top: 6,
+                            right: 2,
+                          }}
+                        />
+                        {name} {String(level)} {product ? `(${product})` : null}
+                      </Typography>
+                    );
+                  },
+                )}
               </Grid>
             );
           },
