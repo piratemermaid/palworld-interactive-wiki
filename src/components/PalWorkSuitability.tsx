@@ -1,12 +1,51 @@
+import React from 'react';
 import { map } from 'lodash';
 import { Card, Grid, Typography } from '@mui/material';
 
-import PAL_WORK_SUITABILITY from '../data/palWorkSuitability';
-import type { PalWorkSuitabilityList } from '../types/workSuitability';
-import { WORK_SUITABILITY_TYPES } from '../constants/workSuitability';
 import WorkSuitabilityImage from './WorkSuitabilityImage';
+import PAL_WORK_SUITABILITY from '../data/palWorkSuitability';
+import { WORK_SUITABILITY_TYPES } from '../constants/workSuitability';
+import type {
+  PalWorkSuitabilityList,
+  WorkSuitability,
+} from '../types/workSuitability';
+
+type FilterName = 'workSuitability' | 'levels';
+
+type Filters = {
+  workSuitability: WorkSuitability[];
+  levels: number[];
+};
 
 export default function PalWorkSuitability() {
+  const [filters, setFilters] = React.useState<Filters>({
+    workSuitability: [],
+    levels: [],
+  });
+
+  const handleSelectFilter = (
+    filterName: FilterName,
+    value: WorkSuitability | number,
+  ) => {
+    const currentFilters = filters[filterName];
+
+    let newFilters = currentFilters;
+
+    if (!currentFilters.length) {
+      // @ts-expect-error - I regret using TS in this project
+      newFilters = [value];
+      // @ts-expect-error
+    } else if (currentFilters.includes(value)) {
+      // @ts-expect-error
+      newFilters = currentFilters.filter((filter) => filter !== value);
+    } else {
+      // @ts-expect-error
+      newFilters.push(value);
+    }
+
+    setFilters({ ...filters, [filterName]: newFilters });
+  };
+
   return (
     <Grid container direction="column" spacing={3}>
       <Grid item>
@@ -18,7 +57,9 @@ export default function PalWorkSuitability() {
           Filters
         </Typography>
         {WORK_SUITABILITY_TYPES.map((name) => (
-          <WorkSuitabilityImage name={name} isHoverable={true} />
+          <span onClick={() => handleSelectFilter('workSuitability', name)}>
+            <WorkSuitabilityImage name={name} isHoverable={true} />
+          </span>
         ))}
       </Grid>
 
