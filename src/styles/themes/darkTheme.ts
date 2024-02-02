@@ -16,8 +16,13 @@ const darkTheme = createTheme({
     background: { default: grey[900] },
   },
   typography: {
-    h2: { fontSize: 30 },
+    h2: { fontSize: 30, color: grey[500] },
     h6: { color: indigo[300] },
+  },
+  components: {
+    MuiCard: {
+      styleOverrides: { root: { backgroundColor: 'rgb(36, 36, 36)' } },
+    },
   },
 });
 
