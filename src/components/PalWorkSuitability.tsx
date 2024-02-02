@@ -1,6 +1,7 @@
 import React from 'react';
 import { map } from 'lodash';
-import { Card, Grid, Typography } from '@mui/material';
+import { Card, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
 
 import WorkSuitabilityImage from './WorkSuitabilityImage';
 import PAL_WORK_SUITABILITY from '../data/palWorkSuitability';
@@ -70,7 +71,12 @@ export default function PalWorkSuitability() {
 
       <Grid item>
         <Typography variant="h3" sx={{ mb: 1 }}>
-          Filters
+          Filters{' '}
+          <Tooltip title="Shift click to select multiple">
+            <IconButton sx={{ position: 'relative', right: 8, bottom: 5 }}>
+              <InfoIcon color="secondary" sx={{ fontSize: 20 }} />
+            </IconButton>
+          </Tooltip>
         </Typography>
         {WORK_SUITABILITY_TYPES.map((name) => (
           <span
