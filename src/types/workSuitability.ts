@@ -1,4 +1,4 @@
-export type WorkSkill =
+export type WorkSuitability =
   | 'Kindling'
   | 'Planting'
   | 'Handiwork'
@@ -12,6 +12,10 @@ export type WorkSkill =
   | 'Cooling'
   | 'Farming';
 
-type PalSkill = { name: WorkSkill; level: number; product?: string };
+type PalWorkSuitability = {
+  name: WorkSuitability;
+  level: number;
+  product?: string;
+};
 
-export type PalSkillList = Record<string, PalSkill[]>;
+export type PalWorkSuitabilityList = Record<string, PalWorkSuitability[]>;

@@ -1,6 +1,6 @@
-import type { PalSkillList } from '../types/workSkills';
+import type { PalWorkSuitabilityList } from '../types/workSuitability';
 
-const PAL_WORK_SKILLS: PalSkillList = {
+const PAL_WORK_SUITABILITY: PalWorkSuitabilityList = {
   Lamball: [
     { name: 'Handiwork', level: 1 },
     { name: 'Transporting', level: 1 },
@@ -511,4 +511,4 @@ const PAL_WORK_SKILLS: PalSkillList = {
   Jetragon: [{ name: 'Gathering', level: 3 }],
 };
 
-export default PAL_WORK_SKILLS;
+export default PAL_WORK_SUITABILITY;
