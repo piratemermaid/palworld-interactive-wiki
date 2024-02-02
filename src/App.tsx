@@ -1,30 +1,18 @@
-import { ThemeProvider, createTheme } from '@mui/material';
-import { indigo, red } from '@mui/material/colors';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 
+import Header from './components/Header';
 import PalWorkSkills from './components/PalWorkSkills';
+import { useStore } from './store';
+import { lightTheme, darkTheme } from './styles/themes';
 import './App.css';
 
-const primaryColor = indigo[500];
-
-const theme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: primaryColor,
-    },
-    secondary: {
-      main: red[400],
-    },
-  },
-  typography: {
-    h2: { fontSize: 30 },
-    h6: { color: primaryColor },
-  },
-});
-
 function App() {
+  const darkMode = useStore((store) => store.darkMode);
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+      <CssBaseline enableColorScheme />
+      <Header />
       <PalWorkSkills />
     </ThemeProvider>
   );
