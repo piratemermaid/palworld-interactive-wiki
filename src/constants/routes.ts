@@ -1,4 +1,4 @@
-import { HomePage, WorkSuitabilityPage, PalListPage } from '../routes/pages';
+import { HomePage, WorkSuitabilityPage, PalDataPage } from '../routes/pages';
 
 type Route = { url: string; label: string; Component: () => JSX.Element };
 
@@ -13,5 +13,5 @@ export const ROUTES: Record<string, Route> = {
     label: 'Work Suitability',
     Component: WorkSuitabilityPage,
   },
-  palList: { url: '/pal_list', label: 'Pal List', Component: PalListPage },
+  palData: { url: '/pal_data', label: 'Pal Data', Component: PalDataPage },
 };

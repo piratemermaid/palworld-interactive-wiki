@@ -3,10 +3,12 @@ import { map } from 'lodash';
 
 import { PAL_DATA } from '../data/pals';
 
-export default function PalListPage() {
+export default function PalDataPage() {
   return (
     <>
-      <Typography variant="h2">Pal List</Typography>
+      <Typography variant="h2" sx={{ mb: 2 }}>
+        Pal List
+      </Typography>
       <Grid container spacing={2}>
         {map(PAL_DATA, (palData, palName) => {
           return (

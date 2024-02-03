@@ -1,5 +1,5 @@
 import HomePage from './HomePage';
 import WorkSuitabilityPage from './WorkSuitabilityPage';
-import PalListPage from './PalListPage';
+import PalDataPage from './PalDataPage';
 
-export { HomePage, WorkSuitabilityPage, PalListPage };
+export { HomePage, WorkSuitabilityPage, PalDataPage };
