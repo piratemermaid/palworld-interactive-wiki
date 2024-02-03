@@ -7,8 +7,7 @@ type State = {
   toggleDarkMode: () => void;
 
   userPals: PalName[];
-  addUserPal: (palName: PalName) => void;
-  removeUserPal: (palName: PalName) => void;
+  updateUserPals: (palName: PalName) => void;
 };
 
 export const useStore = create<State, [['zustand/persist', State]]>(
@@ -21,13 +20,16 @@ export const useStore = create<State, [['zustand/persist', State]]>(
       },
 
       userPals: [],
-      addUserPal: (palName) => {
-        // const darkMode = get().darkMode;
-        // return set({ darkMode: !darkMode });
-      },
-      removeUserPal: (palName) => {
-        // const darkMode = get().darkMode;
-        // return set({ darkMode: !darkMode });
+      updateUserPals: (palName) => {
+        const userPals = get().userPals;
+
+        const newUserPals = userPals.includes(palName)
+          ? userPals.filter((pal) => pal !== palName)
+          : [...userPals, palName];
+
+        console.log('>>', newUserPals);
+
+        return set({ userPals: newUserPals });
       },
     }),
     {
