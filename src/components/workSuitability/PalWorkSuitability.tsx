@@ -1,38 +1,57 @@
 import React from 'react';
 import { map } from 'lodash';
-import { Card, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  FormLabel,
+  Grid,
+  IconButton,
+  Switch,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import PalWorkSuitabilityCard from './PalWorkSuitabilityCard';
 import WorkSuitabilityImage from './WorkSuitabilityImage';
 import PAL_WORK_SUITABILITY from '../../data/palWorkSuitability';
+import { useStore } from '../../store';
 import { WORK_SUITABILITY_TYPES } from '../../constants/workSuitability';
 import { PAL_DATA } from '../../data/pals';
 import { filterObject } from '../../utils/object';
 import type {
-  PalWorkSuitability,
   WorkSuitability,
+  PalWorkSuitability,
 } from '../../types/workSuitability';
 
-type FilterName = 'workSuitability' | 'levels';
+type FilterName = 'workSuitability' | 'levels' | 'havePal';
 
 type Filters = {
   workSuitability: WorkSuitability[];
   levels: number[];
+  havePal: boolean;
 };
 
 export default function PalWorkSuitability() {
   const [filters, setFilters] = React.useState<Filters>({
     workSuitability: [],
     levels: [],
+    havePal: false,
   });
+
+  const userPals = useStore((store) => store.userPals);
 
   const handleSelectFilter = (
     event: React.MouseEvent,
     filterName: FilterName,
     value: any,
   ) => {
+    if (filterName === 'havePal') {
+      setFilters({ ...filters, havePal: !filters.havePal });
+      return;
+    }
+
     const selectMultiple = event.shiftKey;
 
     const currentFilters = filters[filterName];
@@ -59,15 +78,37 @@ export default function PalWorkSuitability() {
     setFilters({ ...filters, [filterName]: [] });
   };
 
-  const palsToDisplay = filters.workSuitability.length
-    ? filterObject(
-        PAL_WORK_SUITABILITY,
+  const getFilteredPals = () => {
+    let filteredPals = {};
+
+    if (filters.havePal)
+      map(PAL_WORK_SUITABILITY, (workSuitability, palName) => {
+        if (userPals.includes(palName)) {
+          // @ts-expect-error // TODO
+          filteredPals[palName] = workSuitability;
+        }
+      });
+
+    if (filters.workSuitability.length) {
+      const objectToFilter = !Object.keys(filteredPals).length
+        ? PAL_WORK_SUITABILITY
+        : filteredPals;
+
+      filteredPals = filterObject(
+        objectToFilter,
         (workSuitability: PalWorkSuitability[]) =>
           workSuitability.find((palWork) =>
             filters.workSuitability.includes(palWork.name),
           ),
-      )
-    : PAL_WORK_SUITABILITY;
+      );
+    }
+
+    return Object.keys(filteredPals).length
+      ? filteredPals
+      : PAL_WORK_SUITABILITY;
+  };
+
+  const palsToDisplay = getFilteredPals();
 
   return (
     <Grid container direction="column" spacing={3}>
@@ -78,17 +119,33 @@ export default function PalWorkSuitability() {
       <Grid item>
         <Typography variant="h3" sx={{ mb: 1 }}>
           Filters{' '}
-          <Tooltip title="Shift click to select multiple">
+          <Tooltip title="Shift click work suitabilities to select multiple">
             <IconButton sx={{ position: 'relative', right: 8, bottom: 5 }}>
               <InfoIcon color="secondary" sx={{ fontSize: 20 }} />
             </IconButton>
           </Tooltip>
+          <Box
+            sx={{ textAlign: 'right' }}
+            onClick={(event) =>
+              handleSelectFilter(event, 'havePal', !filters.havePal)
+            }
+          >
+            <Switch
+              inputProps={{ 'aria-label': 'Dark mode' }}
+              checked={filters.havePal}
+            />
+            <FormLabel sx={{ '&:hover': { cursor: 'pointer' } }}>
+              Only Pals I Have
+            </FormLabel>
+          </Box>
         </Typography>
+
         {WORK_SUITABILITY_TYPES.map((name) => (
           <span
             onClick={(event) =>
               handleSelectFilter(event, 'workSuitability', name)
             }
+            key={name}
           >
             <WorkSuitabilityImage
               name={name}
