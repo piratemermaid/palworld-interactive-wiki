@@ -25,6 +25,9 @@ export default function HomePage() {
         <Typography variant="body2">
           - Track how much of each Pal you've caught
         </Typography>
+        <Typography variant="body2">
+          - List of passive skills and what they mean
+        </Typography>
       </Grid>
     </Grid>
   );
