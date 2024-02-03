@@ -16,19 +16,17 @@ export default function HomePage() {
       </Grid>
       <Grid item>
         <Typography variant="body1">planned next things:</Typography>
-        <Typography variant="body2">
-          - Filter work suitability by level
-        </Typography>
-        <Typography variant="body2">
-          - Track your Pals so the ones you don't have won't show up
-        </Typography>
-        <Typography variant="body2">
-          - Track how much of each Pal you've caught
-        </Typography>
-        <Typography variant="body2">
-          - List of passive skills and what they mean
-        </Typography>
+        <TodoItem text="Filter work suitability by level" />
+        <TodoItem text="Track your Pals so the ones you don't have won't show up" />
+        <TodoItem text="Track how much of each Pal you've caught" />
+        <TodoItem text="List of passive skills and what they mean" />
       </Grid>
     </Grid>
   );
 }
+
+type TodoItemProps = { text: string };
+
+const TodoItem = ({ text }: TodoItemProps) => (
+  <Typography variant="body2">- {text}</Typography>
+);
