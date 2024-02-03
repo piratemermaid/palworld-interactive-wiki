@@ -1,5 +1,17 @@
 import { Grid, Typography } from '@mui/material';
 
+const todoItems = [
+  'Sort/filter work suitability by level',
+  "Track your Pals so the ones you don't have won't show up on work suitability page",
+  "Track how much of each Pal you've caught",
+  'List of passive skills and what they mean',
+  'List of pals with their paldeck numbers, skills, drops, etc.',
+];
+
+const recentUpdates = [
+  'Added paldeck numbers so pals you want in your base can be located quicker in palbox',
+];
+
 export default function HomePage() {
   return (
     <Grid container direction="column" spacing={2} sx={{ mt: 2 }}>
@@ -15,16 +27,16 @@ export default function HomePage() {
         </Typography>
       </Grid>
       <Grid item>
-        <Typography variant="body1">planned next things:</Typography>
-        <TodoItem text="Sort/filter work suitability by level" />
-        <TodoItem text="Track your Pals so the ones you don't have won't show up on work suitability page" />
-        <TodoItem text="Track how much of each Pal you've caught" />
-        <TodoItem text="List of passive skills and what they mean" />
-        <TodoItem text="List of pals with their paldeck numbers, skills, drops, etc." />
+        <Typography variant="h6">planned next things:</Typography>
+        {todoItems.map((text, index) => (
+          <TodoItem key={index} text={text} />
+        ))}
       </Grid>
       <Grid item>
-        <Typography variant="body1">recently updated:</Typography>
-        <TodoItem text="Added paldeck numbers so pals you want in your base can be located quicker in palbox" />
+        <Typography variant="h6">recently updated:</Typography>
+        {recentUpdates.map((text, index) => (
+          <TodoItem key={index} text={text} />
+        ))}
       </Grid>
     </Grid>
   );
