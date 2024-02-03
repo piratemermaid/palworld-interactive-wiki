@@ -8,6 +8,7 @@ import PalWorkSuitabilityCard from './PalWorkSuitabilityCard';
 import WorkSuitabilityImage from './WorkSuitabilityImage';
 import PAL_WORK_SUITABILITY from '../../data/palWorkSuitability';
 import { WORK_SUITABILITY_TYPES } from '../../constants/workSuitability';
+import { PAL_DATA } from '../../data/pals';
 import { filterObject } from '../../utils/object';
 import type {
   PalWorkSuitability,
@@ -116,9 +117,14 @@ export default function PalWorkSuitability() {
           {map(
             palsToDisplay,
             (palWorkSuitability: PalWorkSuitability[], palName: string) => {
+              const palData = PAL_DATA[palName];
+
               return (
                 <Grid item key={palName} lg={2} md={4} sm={6} xs={12}>
                   <Card sx={{ p: 2, height: '100%' }}>
+                    <Typography variant="body2" sx={{ float: 'right' }}>
+                      {palData.paldeckNo}
+                    </Typography>
                     <Typography variant="h6">{palName}</Typography>
                     {palWorkSuitability.map((palWorkSuitability) => {
                       return (
