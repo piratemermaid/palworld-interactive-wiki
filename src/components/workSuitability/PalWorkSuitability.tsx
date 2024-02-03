@@ -2,6 +2,7 @@ import React from 'react';
 import { map } from 'lodash';
 import { Card, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
+import ClearIcon from '@mui/icons-material/Clear';
 
 import PalWorkSuitabilityCard from './PalWorkSuitabilityCard';
 import WorkSuitabilityImage from './WorkSuitabilityImage';
@@ -53,6 +54,10 @@ export default function PalWorkSuitability() {
     setFilters({ ...filters, [filterName]: newFilters });
   };
 
+  const clearFilters = (filterName: FilterName) => {
+    setFilters({ ...filters, [filterName]: [] });
+  };
+
   const palsToDisplay = filters.workSuitability.length
     ? filterObject(
         PAL_WORK_SUITABILITY,
@@ -97,6 +102,13 @@ export default function PalWorkSuitability() {
             />
           </span>
         ))}
+        <IconButton
+          disabled={!filters.workSuitability.length}
+          sx={{ position: 'relative', bottom: 14 }}
+          onClick={() => clearFilters('workSuitability')}
+        >
+          <ClearIcon />
+        </IconButton>
       </Grid>
 
       <Grid item>
