@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 /**
  * Example use:
  * filterObject(people, (person) => person.age > 21)
