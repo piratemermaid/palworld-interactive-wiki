@@ -105,7 +105,7 @@ export default function PalWorkSuitability() {
             palsToDisplay,
             (palWorkSuitability: PalWorkSuitabilityList[], palName: string) => {
               return (
-                <Grid item key={palName} lg={2} md={3} sm={4} xs={12}>
+                <Grid item key={palName} lg={2} md={4} sm={6} xs={12}>
                   <Card sx={{ p: 2, height: '100%' }}>
                     <Typography variant="h6">{palName}</Typography>
                     {palWorkSuitability.map(({ name, level, product }) => {
@@ -114,21 +114,25 @@ export default function PalWorkSuitability() {
                       return (
                         <Grid container spacing={0.5}>
                           <Grid item sx={{ width: 12 }}>
-                            {String(level)}
+                            <Typography variant="body2">
+                              {String(level)}
+                            </Typography>
                           </Grid>
-                          <Grid item sx={{ width: 32 }}>
+                          <Grid item sx={{ width: 26 }}>
                             <Typography
                               key={untypedName}
-                              variant="body1"
+                              variant="body2"
                               sx={{ textAlign: 'left' }}
                             >
                               {/* @ts-expect-error - TS why are you like this */}
-                              <WorkSuitabilityImage name={name} size={26} />
+                              <WorkSuitabilityImage name={name} size={22} />
                             </Typography>
                           </Grid>
                           <Grid item>
-                            {untypedName}
-                            {product ? ` (${product})` : null}
+                            <Typography variant="body2">
+                              {untypedName}
+                              {product ? ` (${product})` : null}
+                            </Typography>
                           </Grid>
                         </Grid>
                       );
