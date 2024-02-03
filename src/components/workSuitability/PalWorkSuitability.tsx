@@ -3,15 +3,15 @@ import { map } from 'lodash';
 import { Card, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 
+import PalWorkSuitabilityCard from './PalWorkSuitabilityCard';
 import WorkSuitabilityImage from './WorkSuitabilityImage';
-import PAL_WORK_SUITABILITY from '../data/palWorkSuitability';
-import { WORK_SUITABILITY_TYPES } from '../constants/workSuitability';
-import { filterObject } from '../utils/object';
+import PAL_WORK_SUITABILITY from '../../data/palWorkSuitability';
+import { WORK_SUITABILITY_TYPES } from '../../constants/workSuitability';
+import { filterObject } from '../../utils/object';
 import type {
   PalWorkSuitability,
-  PalWorkSuitabilityList,
   WorkSuitability,
-} from '../types/workSuitability';
+} from '../../types/workSuitability';
 
 type FilterName = 'workSuitability' | 'levels';
 
@@ -103,38 +103,17 @@ export default function PalWorkSuitability() {
         <Grid container spacing={2} alignItems="stretch">
           {map(
             palsToDisplay,
-            (palWorkSuitability: PalWorkSuitabilityList[], palName: string) => {
+            (palWorkSuitability: PalWorkSuitability[], palName: string) => {
               return (
                 <Grid item key={palName} lg={2} md={4} sm={6} xs={12}>
                   <Card sx={{ p: 2, height: '100%' }}>
                     <Typography variant="h6">{palName}</Typography>
-                    {palWorkSuitability.map(({ name, level, product }) => {
-                      const untypedName = String(name);
-
+                    {palWorkSuitability.map((palWorkSuitability) => {
                       return (
-                        <Grid container spacing={0.5}>
-                          <Grid item sx={{ width: 12 }}>
-                            <Typography variant="body2">
-                              {String(level)}
-                            </Typography>
-                          </Grid>
-                          <Grid item sx={{ width: 26 }}>
-                            <Typography
-                              key={untypedName}
-                              variant="body2"
-                              sx={{ textAlign: 'left' }}
-                            >
-                              {/* @ts-expect-error - TS why are you like this */}
-                              <WorkSuitabilityImage name={name} size={22} />
-                            </Typography>
-                          </Grid>
-                          <Grid item>
-                            <Typography variant="body2">
-                              {untypedName}
-                              {product ? ` (${product})` : null}
-                            </Typography>
-                          </Grid>
-                        </Grid>
+                        <PalWorkSuitabilityCard
+                          key={String(palWorkSuitability.name)}
+                          palWorkSuitability={palWorkSuitability}
+                        />
                       );
                     })}
                   </Card>

@@ -1,5 +1,6 @@
 import { CSSProperties } from 'react';
-import type { WorkSuitability } from '../types/workSuitability';
+
+import type { WorkSuitability } from '../../types/workSuitability';
 
 type Props = {
   name: WorkSuitability;
