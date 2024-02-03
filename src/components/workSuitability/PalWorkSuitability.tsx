@@ -81,13 +81,16 @@ export default function PalWorkSuitability() {
   const getFilteredPals = () => {
     let filteredPals = {};
 
-    if (filters.havePal)
+    if (filters.havePal) {
+      if (!userPals.length) return {};
+
       map(PAL_WORK_SUITABILITY, (workSuitability, palName) => {
         if (userPals.includes(palName)) {
           // @ts-expect-error // TODO
           filteredPals[palName] = workSuitability;
         }
       });
+    }
 
     if (filters.workSuitability.length) {
       const objectToFilter = !Object.keys(filteredPals).length
