@@ -1,4 +1,4 @@
 import HomePage from './HomePage';
-import WorkSuitabilityPage from './workSuitabilityPage';
+import WorkSuitabilityPage from './WorkSuitabilityPage';
 
 export { HomePage, WorkSuitabilityPage };
