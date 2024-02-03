@@ -5,9 +5,13 @@ import type { PalWorkSuitability } from '../../types/workSuitability';
 
 type Props = {
   palWorkSuitability: PalWorkSuitability;
+  isActive: boolean;
 };
 
-export default function PalWorkSuitabilityCard({ palWorkSuitability }: Props) {
+export default function PalWorkSuitabilityCard({
+  palWorkSuitability,
+  isActive,
+}: Props) {
   const { name, level, product } = palWorkSuitability;
 
   return (
@@ -21,7 +25,7 @@ export default function PalWorkSuitabilityCard({ palWorkSuitability }: Props) {
         </Typography>
       </Grid>
       <Grid item>
-        <Typography variant="body2">
+        <Typography variant="body2" color={isActive ? 'primary' : ''}>
           {name}
           {product ? ` (${product})` : null}
         </Typography>

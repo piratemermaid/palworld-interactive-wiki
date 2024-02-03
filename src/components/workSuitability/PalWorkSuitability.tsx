@@ -113,6 +113,9 @@ export default function PalWorkSuitability() {
                         <PalWorkSuitabilityCard
                           key={String(palWorkSuitability.name)}
                           palWorkSuitability={palWorkSuitability}
+                          isActive={filters.workSuitability.includes(
+                            palWorkSuitability.name,
+                          )}
                         />
                       );
                     })}
