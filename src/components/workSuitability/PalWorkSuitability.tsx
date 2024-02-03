@@ -128,7 +128,6 @@ export default function PalWorkSuitability() {
             </IconButton>
           </Tooltip>
           <Box
-            sx={{ textAlign: 'right' }}
             onClick={(event) =>
               handleSelectFilter(event, 'havePal', !filters.havePal)
             }
