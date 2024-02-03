@@ -16,10 +16,15 @@ export default function HomePage() {
       </Grid>
       <Grid item>
         <Typography variant="body1">planned next things:</Typography>
-        <TodoItem text="Filter work suitability by level" />
-        <TodoItem text="Track your Pals so the ones you don't have won't show up" />
+        <TodoItem text="Sort/filter work suitability by level" />
+        <TodoItem text="Track your Pals so the ones you don't have won't show up on work suitability page" />
         <TodoItem text="Track how much of each Pal you've caught" />
         <TodoItem text="List of passive skills and what they mean" />
+        <TodoItem text="List of pals with their paldeck numbers, skills, drops, etc." />
+      </Grid>
+      <Grid item>
+        <Typography variant="body1">recently updated:</Typography>
+        <TodoItem text="Added paldeck numbers so pals you want in your base can be located quicker in palbox" />
       </Grid>
     </Grid>
   );
