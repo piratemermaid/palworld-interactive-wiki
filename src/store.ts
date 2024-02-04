@@ -8,6 +8,8 @@ type State = {
 
   userPals: PalName[];
   updateUserPals: (palName: PalName) => void;
+  userPalsCaughtTen: PalName[];
+  updateUserPalsCaughtTen: (palName: PalName) => void;
 };
 
 export const useStore = create<State, [['zustand/persist', State]]>(
@@ -27,9 +29,19 @@ export const useStore = create<State, [['zustand/persist', State]]>(
           ? userPals.filter((pal) => pal !== palName)
           : [...userPals, palName];
 
-        console.log('>>', newUserPals);
-
         return set({ userPals: newUserPals });
+      },
+      userPalsCaughtTen: [],
+      updateUserPalsCaughtTen: (palName) => {
+        const userPalsCaughtTen = get().userPalsCaughtTen;
+
+        const newUserPalsCaughtTen = userPalsCaughtTen.includes(palName)
+          ? userPalsCaughtTen.filter((pal) => pal !== palName)
+          : [...userPalsCaughtTen, palName];
+
+        return set({
+          userPalsCaughtTen: newUserPalsCaughtTen,
+        });
       },
     }),
     {
