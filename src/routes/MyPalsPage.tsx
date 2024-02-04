@@ -35,7 +35,7 @@ export default function MyPalsPage() {
               sx={{ cursor: 'pointer' }}
             >
               <Card sx={{ p: 1 }}>
-                <Grid container>
+                <Grid container direction="column" sx={{ textAlign: 'left' }}>
                   <Grid item onClick={() => updateUserPals(palName)}>
                     <Grid container alignItems="center">
                       <Grid item>
