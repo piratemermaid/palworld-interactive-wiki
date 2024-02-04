@@ -35,18 +35,29 @@ export default function MyPalsPage() {
               sx={{ cursor: 'pointer' }}
             >
               <Card sx={{ p: 1 }}>
-                <Grid container direction="column" sx={{ textAlign: 'left' }}>
+                <Grid
+                  container
+                  sx={{ textAlign: 'left' }}
+                  justifyContent="space-between"
+                >
                   <Grid item onClick={() => updateUserPals(palName)}>
-                    <Grid container alignItems="center">
+                    <Grid container>
                       <Grid item>
                         <Checkbox checked={havePal} />{' '}
                       </Grid>
-                      <Grid item>
+                      <Grid item sx={{ position: 'relative', top: 6 }}>
                         <Typography
                           variant="body2"
                           color={havePal ? 'primary' : ''}
                         >
-                          #{palData.paldeckNo} {palName}
+                          {palName}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color={havePal ? 'primary' : ''}
+                          sx={{ fontSize: 12 }}
+                        >
+                          #{palData.paldeckNo}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -63,7 +74,7 @@ export default function MyPalsPage() {
                       sx={{ position: 'relative', bottom: 2 }}
                       color="secondary"
                     />
-                    Caught 10
+                    10
                   </Grid>
                 </Grid>
               </Card>
