@@ -12,7 +12,7 @@ export default function PalDataPage() {
       <Grid container spacing={2}>
         {map(PAL_DATA, (palData, palName) => {
           return (
-            <Grid item lg={3} md={4} sm={6} xs={12}>
+            <Grid key={palName} item lg={3} md={4} sm={6} xs={12}>
               <Card sx={{ p: 2 }}>
                 <Typography variant="h6">{palName}</Typography>
                 <Typography variant="body2">#{palData.paldeckNo}</Typography>
