@@ -2,13 +2,14 @@ import { Grid, Typography } from '@mui/material';
 
 const todoItems = [
   'Sort/filter work suitability by level',
-  'List of passive skills and what they mean, with filtering for type (movement speed, attack, etc.)',
   'List of pals with their paldeck numbers, skills, drops, etc.',
+  'Add passive skill filtering/sortability',
 ];
 
 const recentUpdates = [
-  'Added tracking and filtering for pals you have obtained',
+  'List of passive skills and what they mean',
   "Added tracking for pals you've caught 10 of",
+  'Added tracking and filtering for pals you have obtained',
   'Added paldeck numbers so pals you want in your base can be located quicker in palbox',
 ];
 
