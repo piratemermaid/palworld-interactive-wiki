@@ -131,7 +131,7 @@ export const PASSIVE_SKILLS: PassiveSkill[] = [
   {
     name: 'Abnormal',
     types: ['Element Defense'],
-    description: '10% decreased to incoming neutral damage',
+    description: '10% decrease to incoming neutral damage',
     tier: 1,
   },
   {
