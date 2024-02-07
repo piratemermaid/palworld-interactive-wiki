@@ -4,6 +4,7 @@ import {
   WorkSuitabilityPage,
   PalDataPage,
   PassiveSkillsPage,
+  MyDataPage,
 } from '../routes/pages';
 
 type Route = { url: string; label: string; Component: () => JSX.Element };
@@ -29,5 +30,10 @@ export const ROUTES: Record<string, Route> = {
     url: '/passive_skills',
     label: 'Passive Skills',
     Component: PassiveSkillsPage,
+  },
+  myData: {
+    url: '/my_data',
+    label: 'My Data',
+    Component: MyDataPage,
   },
 };

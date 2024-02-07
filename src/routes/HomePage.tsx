@@ -7,7 +7,8 @@ const todoItems = [
 ];
 
 const recentUpdates = [
-  'List of passive skills and what they mean',
+  'Added list of passive skills and what they mean',
+  'Added ability to import and export data',
   "Added tracking for pals you've caught 10 of",
   'Added tracking and filtering for pals you have obtained',
   'Added paldeck numbers so pals you want in your base can be located quicker in palbox',

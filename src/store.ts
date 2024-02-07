@@ -8,8 +8,11 @@ type State = {
 
   userPals: PalName[];
   updateUserPals: (palName: PalName) => void;
+  setUserPals: (palNames: PalName[]) => void;
+
   userPalsCaughtTen: PalName[];
   updateUserPalsCaughtTen: (palName: PalName) => void;
+  setUserPalsCaughtTen: (palNames: PalName[]) => void;
 };
 
 export const useStore = create<State, [['zustand/persist', State]]>(
@@ -31,6 +34,8 @@ export const useStore = create<State, [['zustand/persist', State]]>(
 
         return set({ userPals: newUserPals });
       },
+      setUserPals: (palNames) => set({ userPals: palNames }),
+
       userPalsCaughtTen: [],
       updateUserPalsCaughtTen: (palName) => {
         const userPalsCaughtTen = get().userPalsCaughtTen;
@@ -43,6 +48,7 @@ export const useStore = create<State, [['zustand/persist', State]]>(
           userPalsCaughtTen: newUserPalsCaughtTen,
         });
       },
+      setUserPalsCaughtTen: (palNames) => set({ userPalsCaughtTen: palNames }),
     }),
     {
       name: 'store',
