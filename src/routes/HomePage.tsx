@@ -7,6 +7,7 @@ const todoItems = [
 ];
 
 const recentUpdates = [
+  'Added filtering My Pals by caught/uncaught',
   'Fixed 404s when loading into routes',
   'Added list of passive skills and what they mean',
   'Added ability to import and export data',

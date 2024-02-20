@@ -4,3 +4,10 @@
   padding: 2rem;
   text-align: center;
 }
+
+/*******************/
+/* UTILITY CLASSES */
+/*******************/
+.hover:hover {
+  cursor: pointer;
+}
