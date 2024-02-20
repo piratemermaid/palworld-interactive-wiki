@@ -6,27 +6,51 @@ import React from 'react';
 import { useStore } from '../store';
 
 type CaughtFilter = 'caught' | 'uncaught' | null;
+type CaughtTenFilter = 'caught' | 'uncaught' | null;
 
 export default function MyPalsPage() {
   const [caughtFilter, setCaughtFilter] = React.useState<CaughtFilter>(null);
+  const [caughtTenFilter, setCaughtTenFilter] =
+    React.useState<CaughtTenFilter>(null);
 
   const userPals = useStore((store) => store.userPals);
+  const userPalsCaughtTen = useStore((store) => store.userPalsCaughtTen);
 
-  const handleCaughtFilterChange = (selectedFilter: CaughtFilter) => {
-    if (selectedFilter === caughtFilter) {
-      setCaughtFilter(null);
+  const handleCaughtFilterChange = (
+    selectedFilter: CaughtFilter,
+    filter: CaughtFilter | CaughtTenFilter,
+    updateFn: React.Dispatch<
+      React.SetStateAction<CaughtFilter | CaughtTenFilter>
+    >,
+  ) => {
+    if (selectedFilter === filter) {
+      updateFn(null);
     } else {
-      setCaughtFilter(selectedFilter);
+      updateFn(selectedFilter);
     }
   };
 
   const palsToDisplay = !caughtFilter
     ? PAL_NAME_LIST
-    : PAL_NAME_LIST.filter((pal) =>
-        caughtFilter === 'caught'
-          ? userPals.includes(pal)
-          : !userPals.includes(pal),
-      );
+    : PAL_NAME_LIST.filter((pal) => {
+        if (caughtFilter === 'uncaught') {
+          return !userPals.includes(pal);
+        }
+
+        if (caughtFilter === 'caught') {
+          if (caughtTenFilter === 'caught') {
+            return userPalsCaughtTen.includes(pal);
+          }
+
+          if (caughtTenFilter === 'uncaught') {
+            return userPals.includes(pal) && !userPalsCaughtTen.includes(pal);
+          }
+
+          return userPals.includes(pal);
+        }
+
+        return pal;
+      });
 
   return (
     <Grid container direction="column" spacing={3}>
@@ -38,7 +62,9 @@ export default function MyPalsPage() {
         <Grid container spacing={1}>
           <Grid
             item
-            onClick={() => handleCaughtFilterChange('caught')}
+            onClick={() =>
+              handleCaughtFilterChange('caught', caughtFilter, setCaughtFilter)
+            }
             className="hover"
           >
             <Checkbox checked={caughtFilter === 'caught'} />
@@ -46,7 +72,13 @@ export default function MyPalsPage() {
           </Grid>
           <Grid
             item
-            onClick={() => handleCaughtFilterChange('uncaught')}
+            onClick={() =>
+              handleCaughtFilterChange(
+                'uncaught',
+                caughtFilter,
+                setCaughtFilter,
+              )
+            }
             className="hover"
           >
             <Checkbox checked={caughtFilter === 'uncaught'} />
@@ -54,6 +86,47 @@ export default function MyPalsPage() {
           </Grid>
         </Grid>
       </Grid>
+
+      {caughtFilter === 'caught' ? (
+        <Grid item sx={{ mt: -4 }}>
+          <Grid container spacing={1}>
+            <Grid
+              item
+              onClick={() =>
+                handleCaughtFilterChange(
+                  'caught',
+                  caughtTenFilter,
+                  setCaughtTenFilter,
+                )
+              }
+              className="hover"
+            >
+              <Checkbox
+                checked={caughtTenFilter === 'caught'}
+                color="secondary"
+              />
+              Only Caught Ten
+            </Grid>
+            <Grid
+              item
+              onClick={() =>
+                handleCaughtFilterChange(
+                  'uncaught',
+                  caughtTenFilter,
+                  setCaughtTenFilter,
+                )
+              }
+              className="hover"
+            >
+              <Checkbox
+                checked={caughtTenFilter === 'uncaught'}
+                color="secondary"
+              />
+              Only Caught Less Than Ten
+            </Grid>
+          </Grid>
+        </Grid>
+      ) : null}
 
       <Grid item>
         <Grid container spacing={2}>
