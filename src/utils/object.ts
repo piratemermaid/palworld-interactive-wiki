@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 /**
  * Example use:
  * filterObject(people, (person) => person.age > 21)
@@ -9,5 +7,5 @@ export const filterObject = (
   predicate: (item: any) => void,
 ) =>
   Object.keys(obj)
-    .filter((key) => predicate(obj[key]))
+    .filter((key) => predicate(obj[key])) //@ts-expect-error idc
     .reduce((res, key) => ((res[key] = obj[key]), res), {});

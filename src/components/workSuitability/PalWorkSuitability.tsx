@@ -60,14 +60,14 @@ export default function PalWorkSuitability() {
 
     if (!currentFilters.length) {
       newFilters = [value];
-      // @ts-expect-error
+      // @ts-expect-error idc
     } else if (currentFilters.includes(value)) {
-      // @ts-expect-error
+      // @ts-expect-error idc
       newFilters = currentFilters.filter((filter) => filter !== value);
     } else if (!selectMultiple) {
       newFilters = [value];
     } else {
-      // @ts-expect-error
+      // @ts-expect-error idc
       newFilters.push(value);
     }
 
