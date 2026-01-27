@@ -31,7 +31,12 @@ export default function HomePage() {
         </Typography>
       </Grid>
       <Grid item>
-        <Typography variant="h6">planned next things:</Typography>
+        <Typography variant="h6">
+          planned next things:{' '}
+          <Typography component="span" color="error.main">
+            *
+          </Typography>
+        </Typography>
         {todoItems.map((text, index) => (
           <TodoItem key={index} text={text} />
         ))}
@@ -41,6 +46,12 @@ export default function HomePage() {
         {recentUpdates.map((text, index) => (
           <TodoItem key={index} text={text} />
         ))}
+      </Grid>
+      <Grid item>
+        <Typography variant="body2" color="error.main">
+          * this is from a long time ago so priorities will shift with the
+          updated game
+        </Typography>
       </Grid>
     </Grid>
   );
