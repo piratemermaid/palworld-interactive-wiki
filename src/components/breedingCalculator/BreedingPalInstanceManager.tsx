@@ -17,10 +17,14 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  TextField,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
 import {
   Add as AddIcon,
   ExpandMore as ExpandMoreIcon,
+  Clear as ClearIcon,
 } from '@mui/icons-material';
 
 import { PalInstanceCard } from './instanceCards/PalInstanceCard';
@@ -49,6 +53,7 @@ export const BreedingPalInstanceManager = ({ targetPal }: Props) => {
   const [formPalName, setFormPalName] = React.useState<string>('');
   const [formGender, setFormGender] = React.useState<Gender>('M');
   const [formTraits, setFormTraits] = React.useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = React.useState<string>('');
 
   const resetForm = React.useCallback(() => {
     setFormPalName('');
@@ -114,6 +119,17 @@ export const BreedingPalInstanceManager = ({ targetPal }: Props) => {
     return userPals.filter((palName) => parentPalNames.has(palName));
   }, [userPals, targetPal]);
 
+  // Filter relevant pals by search query
+  const filteredPals = React.useMemo(() => {
+    if (!searchQuery.trim()) {
+      return relevantPals;
+    }
+    const query = searchQuery.toLowerCase().trim();
+    return relevantPals.filter((palName) =>
+      palName.toLowerCase().includes(query),
+    );
+  }, [relevantPals, searchQuery]);
+
   if (userPals.length === 0) {
     return (
       <BreedingWarning message="No caught pals yet. Go to 'My Pals' page to mark pals as caught." />
@@ -122,9 +138,41 @@ export const BreedingPalInstanceManager = ({ targetPal }: Props) => {
 
   if (targetPal && relevantPals.length === 0) {
     return (
-      <BreedingWarning
-        message={`None of your caught pals are needed to breed ${targetPal}. Add more pals or select a different target pal.`}
-      />
+      <Stack spacing={2}>
+        <div>
+          <Typography variant="h6">Manage Instances of Caught Pals</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+            {targetPal
+              ? `Showing caught pals needed to breed ${targetPal}. Add instances with gender and traits.`
+              : 'Add instances for your caught pals with gender and traits. These will be used to calculate viable breeding combinations.'}
+          </Typography>
+        </div>
+        <TextField
+          label="Search by pal name"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Type to filter pals..."
+          sx={{ maxWidth: 400 }}
+          size="small"
+          InputProps={{
+            endAdornment: searchQuery && (
+              <InputAdornment position="end">
+                <IconButton
+                  size="small"
+                  onClick={() => setSearchQuery('')}
+                  edge="end"
+                  aria-label="clear search"
+                >
+                  <ClearIcon fontSize="small" />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <BreedingWarning
+          message={`None of your caught pals are needed to breed ${targetPal}. Add more pals or select a different target pal.`}
+        />
+      </Stack>
     );
   }
 
@@ -139,87 +187,113 @@ export const BreedingPalInstanceManager = ({ targetPal }: Props) => {
         </Typography>
       </div>
 
-      <Stack spacing={2}>
-        {relevantPals.map((palName) => {
-          const instances = getInstancesForPal(palName, palInstances);
-          const isAdding = addingForPal === palName;
+      <TextField
+        label="Search by pal name"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        placeholder="Type to filter pals..."
+        sx={{ maxWidth: 400 }}
+        size="small"
+        InputProps={{
+          endAdornment: searchQuery && (
+            <InputAdornment position="end">
+              <IconButton
+                size="small"
+                onClick={() => setSearchQuery('')}
+                edge="end"
+                aria-label="clear search"
+              >
+                <ClearIcon fontSize="small" />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
 
-          return (
-            <Accordion key={palName} defaultExpanded={instances.length === 0}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Box
-                  sx={{
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    width: '100%',
-                    pr: 2,
-                  }}
-                >
-                  <Typography variant="h6">{palName}</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {instances.length} instance
-                    {instances.length !== 1 ? 's' : ''}
-                  </Typography>
-                </Box>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Stack spacing={2}>
-                  {instances.length > 0 && (
-                    <Grid container spacing={2}>
-                      {instances.map((instance) => (
-                        <Grid item xs={12} sm={6} md={4} key={instance.id}>
-                          <PalInstanceCard
-                            instance={instance}
-                            onEdit={handleEdit}
-                            onDelete={handleDelete}
+      {searchQuery.trim() && filteredPals.length === 0 ? (
+        <BreedingWarning
+          message={`No pals found matching "${searchQuery}". Try a different search term.`}
+        />
+      ) : (
+        <Stack spacing={2}>
+          {filteredPals.map((palName) => {
+            const instances = getInstancesForPal(palName, palInstances);
+            const isAdding = addingForPal === palName;
+
+            return (
+              <Accordion key={palName} defaultExpanded={instances.length === 0}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Box
+                    sx={{
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      width: '100%',
+                      pr: 2,
+                    }}
+                  >
+                    <Typography variant="h6">{palName}</Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {instances.length} instance
+                      {instances.length !== 1 ? 's' : ''}
+                    </Typography>
+                  </Box>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Stack spacing={2}>
+                    {instances.length > 0 && (
+                      <Grid container spacing={2}>
+                        {instances.map((instance) => (
+                          <Grid item xs={12} sm={6} md={4} key={instance.id}>
+                            <PalInstanceCard
+                              instance={instance}
+                              onEdit={handleEdit}
+                              onDelete={handleDelete}
+                            />
+                          </Grid>
+                        ))}
+                      </Grid>
+                    )}
+
+                    {!isAdding ? (
+                      <Button
+                        variant="outlined"
+                        startIcon={<AddIcon />}
+                        onClick={() => setAddingForPal(palName)}
+                        size="small"
+                      >
+                        Add Instance for {palName}
+                      </Button>
+                    ) : (
+                      <Card variant="outlined" sx={{ p: 2 }}>
+                        <Stack spacing={2}>
+                          <InstanceFormFields
+                            gender={formGender}
+                            traits={formTraits}
+                            onGenderChange={setFormGender}
+                            onTraitsChange={setFormTraits}
                           />
-                        </Grid>
-                      ))}
-                    </Grid>
-                  )}
-
-                  {!isAdding ? (
-                    <Button
-                      variant="outlined"
-                      startIcon={<AddIcon />}
-                      onClick={() => setAddingForPal(palName)}
-                      size="small"
-                    >
-                      Add Instance for {palName}
-                    </Button>
-                  ) : (
-                    <Card variant="outlined" sx={{ p: 2 }}>
-                      <Stack spacing={2}>
-                        <InstanceFormFields
-                          gender={formGender}
-                          traits={formTraits}
-                          onGenderChange={setFormGender}
-                          onTraitsChange={setFormTraits}
-                        />
-                        <Stack
-                          direction="row"
-                          sx={{
-                            gap: 1,
-                            justifyContent: 'flex-end',
-                          }}
-                        >
-                          <Button onClick={handleCancel}>Cancel</Button>
-                          <Button
-                            onClick={() => handleAdd(palName)}
-                            variant="contained"
+                          <Stack
+                            direction="row"
+                            sx={{ gap: 1, justifyContent: 'flex-end' }}
                           >
-                            Add
-                          </Button>
+                            <Button onClick={handleCancel}>Cancel</Button>
+                            <Button
+                              onClick={() => handleAdd(palName)}
+                              variant="contained"
+                            >
+                              Add
+                            </Button>
+                          </Stack>
                         </Stack>
-                      </Stack>
-                    </Card>
-                  )}
-                </Stack>
-              </AccordionDetails>
-            </Accordion>
-          );
-        })}
-      </Stack>
+                      </Card>
+                    )}
+                  </Stack>
+                </AccordionDetails>
+              </Accordion>
+            );
+          })}
+        </Stack>
+      )}
 
       {/* Edit Dialog */}
       <Dialog

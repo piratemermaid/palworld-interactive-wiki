@@ -45,16 +45,18 @@ export default function BreedingPage() {
   );
   const hasViableCombinations = viableCount > 0;
 
+  const options = PAL_NAME_LIST.sort();
+
   return (
     <Stack spacing={3}>
       <Typography variant="h2">Breeding Calculator</Typography>
 
       <Autocomplete
-        options={PAL_NAME_LIST}
+        options={options}
         value={selectedPal}
         onChange={(_, newValue) => setSelectedPal(newValue)}
         renderInput={(params) => (
-          <TextField {...params} label="Select Pal to Breed" />
+          <TextField {...params} label="Select Pal to Breed (optional)" />
         )}
         sx={{ maxWidth: 400 }}
       />
