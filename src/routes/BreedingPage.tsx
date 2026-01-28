@@ -25,11 +25,13 @@ import type { PalInstance } from '../types/palInstance';
 import type { ViableCombination } from '../utils/breeding';
 
 export default function BreedingPage() {
-  const [selectedPal, setSelectedPal] = React.useState<PalName | null>(null);
   const [activeTab, setActiveTab] = React.useState(0);
-  const [traitFilter, setTraitFilter] = React.useState<string[]>([]);
 
   const palInstances = useStore((store) => store.palInstances);
+  const selectedPal = useStore((store) => store.selectedBreedingPal);
+  const setSelectedPal = useStore((store) => store.setSelectedBreedingPal);
+  const traitFilter = useStore((store) => store.breedingTraitFilter);
+  const setTraitFilter = useStore((store) => store.setBreedingTraitFilter);
 
   const availableCombinations = React.useMemo(() => {
     if (!selectedPal) return [];

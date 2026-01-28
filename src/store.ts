@@ -21,6 +21,12 @@ type State = {
   removePalInstance: (id: string) => void;
   updatePalInstance: (id: string, updates: Partial<PalInstance>) => void;
   getInstancesByPalName: (palName: PalName) => PalInstance[];
+
+  selectedBreedingPal: PalName | null;
+  setSelectedBreedingPal: (pal: PalName | null) => void;
+
+  breedingTraitFilter: string[];
+  setBreedingTraitFilter: (traits: string[]) => void;
 };
 
 export const useStore = create<State, [['zustand/persist', State]]>(
@@ -85,6 +91,12 @@ export const useStore = create<State, [['zustand/persist', State]]>(
           (instance) => instance.palName === palName,
         );
       },
+
+      selectedBreedingPal: null,
+      setSelectedBreedingPal: (pal) => set({ selectedBreedingPal: pal }),
+
+      breedingTraitFilter: [],
+      setBreedingTraitFilter: (traits) => set({ breedingTraitFilter: traits }),
     }),
     {
       name: 'store',
