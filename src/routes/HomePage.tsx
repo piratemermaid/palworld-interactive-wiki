@@ -1,19 +1,17 @@
 import { Grid, Typography } from '@mui/material';
 
 const todoItems = [
+  'Make UI not trash if I have the energy for it',
+  'Fill out breeding data - will prob do as I breed pals in my game instead of all at once',
+  'Add indicators for good and bad traits on breeding page',
+  'Add filters for traits on breeding page',
   'Sort/filter work suitability by level',
   'List of pals with their paldeck numbers, skills, drops, etc.',
   'Add passive skill filtering/sortability',
 ];
 
 const recentUpdates = [
-  'Added filtering My Pals by caught/uncaught',
-  'Fixed 404s when loading into routes',
-  'Added list of passive skills and what they mean',
-  'Added ability to import and export data',
-  "Added tracking for pals you've caught 10 of",
-  'Added tracking and filtering for pals you have obtained',
-  'Added paldeck numbers so pals you want in your base can be located quicker in palbox',
+  'First 2026 update: added breeding page for finding good breeding combinations - currently only has Anubis data lol',
 ];
 
 export default function HomePage() {
