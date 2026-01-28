@@ -3,6 +3,7 @@ import WorkSuitabilityPage from './WorkSuitabilityPage';
 import PalDataPage from './PalDataPage';
 import PassiveSkillsPage from './PassiveSkillsPage';
 import MyDataPage from './MyDataPage';
+import BreedingPage from './BreedingPage';
 
 export {
   HomePage,
@@ -10,4 +11,5 @@ export {
   PalDataPage,
   PassiveSkillsPage,
   MyDataPage,
+  BreedingPage,
 };

@@ -5,6 +5,7 @@ import {
   PalDataPage,
   PassiveSkillsPage,
   MyDataPage,
+  BreedingPage,
 } from '../routes/pages';
 
 type Route = { url: string; label: string; Component: () => JSX.Element };
@@ -14,6 +15,11 @@ export const ROUTES: Record<string, Route> = {
     url: '/',
     label: 'Home',
     Component: HomePage,
+  },
+  breeding: {
+    url: '/breeding',
+    label: 'Breeding',
+    Component: BreedingPage,
   },
   workSuitability: {
     url: '/work_suitability',

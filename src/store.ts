@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+
 import type { PalName } from './types/pal';
+import type { PalInstance } from './types/palInstance';
 
 type State = {
   darkMode: boolean;
@@ -13,6 +15,12 @@ type State = {
   userPalsCaughtTen: PalName[];
   updateUserPalsCaughtTen: (palName: PalName) => void;
   setUserPalsCaughtTen: (palNames: PalName[]) => void;
+
+  palInstances: PalInstance[];
+  addPalInstance: (instance: Omit<PalInstance, 'id'>) => void;
+  removePalInstance: (id: string) => void;
+  updatePalInstance: (id: string, updates: Partial<PalInstance>) => void;
+  getInstancesByPalName: (palName: PalName) => PalInstance[];
 };
 
 export const useStore = create<State, [['zustand/persist', State]]>(
@@ -49,6 +57,34 @@ export const useStore = create<State, [['zustand/persist', State]]>(
         });
       },
       setUserPalsCaughtTen: (palNames) => set({ userPalsCaughtTen: palNames }),
+
+      palInstances: [],
+      addPalInstance: (instance) => {
+        const id = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        const newInstance: PalInstance = { ...instance, id };
+        set((state) => ({
+          palInstances: [...state.palInstances, newInstance],
+        }));
+      },
+      removePalInstance: (id) => {
+        set((state) => ({
+          palInstances: state.palInstances.filter(
+            (instance) => instance.id !== id,
+          ),
+        }));
+      },
+      updatePalInstance: (id, updates) => {
+        set((state) => ({
+          palInstances: state.palInstances.map((instance) =>
+            instance.id === id ? { ...instance, ...updates } : instance,
+          ),
+        }));
+      },
+      getInstancesByPalName: (palName) => {
+        return get().palInstances.filter(
+          (instance) => instance.palName === palName,
+        );
+      },
     }),
     {
       name: 'store',
