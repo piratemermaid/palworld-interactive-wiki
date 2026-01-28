@@ -17,6 +17,10 @@ export default function MyPalCard({ palName }: Props) {
 
   const palData = PAL_DATA[palName];
 
+  if (!palData) {
+    return null;
+  }
+
   const havePal = userPals.includes(palName);
   const haveCaughtTen = userPalsCaughtTen.includes(palName);
 
