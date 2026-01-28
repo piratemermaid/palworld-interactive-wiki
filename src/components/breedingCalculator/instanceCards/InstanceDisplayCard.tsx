@@ -16,7 +16,7 @@ export const InstanceDisplayCard = ({ instance, compact = false }: Props) => {
         <BreedingPalChip palName={instance.palName} gender={instance.gender} />
       </Stack>
       {instance.traits.length > 0 ? (
-        <Stack sx={{ flexWrap: 'wrap', gap: 0.5 }}>
+        <Stack direction="row" flexWrap="wrap" gap={0.5}>
           {instance.traits.map((trait) => (
             <TraitChip key={trait} trait={trait} />
           ))}
