@@ -177,6 +177,10 @@ export default function PalWorkSuitability() {
             palsToDisplay,
             (palWorkSuitability: PalWorkSuitability[], palName: string) => {
               const palData = PAL_DATA[palName];
+              // Skip if pal data doesn't exist
+              if (!palData) {
+                return null;
+              }
 
               return (
                 <Grid item key={palName} lg={2} md={4} sm={6} xs={12}>

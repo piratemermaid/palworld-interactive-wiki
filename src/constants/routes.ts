@@ -1,4 +1,3 @@
-import MyPalsPage from '../routes/MyPalsPage';
 import {
   HomePage,
   WorkSuitabilityPage,
@@ -6,6 +5,7 @@ import {
   PassiveSkillsPage,
   MyDataPage,
   BreedingPage,
+  MyPalsPage,
 } from '../routes/pages';
 
 type Route = { url: string; label: string; Component: () => JSX.Element };
