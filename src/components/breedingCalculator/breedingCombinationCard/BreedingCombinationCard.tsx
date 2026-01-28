@@ -20,14 +20,6 @@ const getCardStyles = (hasViablePair: boolean) => ({
   bgcolor: hasViablePair ? 'action.hover' : 'background.paper',
 });
 
-/**
- * Check if an instance has at least one of the required traits
- */
-const hasAtLeastOneTrait = (instance: PalInstance, requiredTraits: string[]): boolean => {
-  if (requiredTraits.length === 0) return true;
-  return requiredTraits.some((trait) => instance.traits.includes(trait));
-};
-
 export const BreedingCombinationCard = ({
   viableCombination,
   allInstances,
@@ -39,35 +31,50 @@ export const BreedingCombinationCard = ({
   const toggleExpanded = () => setExpanded(!expanded);
 
   // Calculate which traits are matching and their counts
-  const parent1Instances = getInstancesForPal(combination.parent1, allInstances);
-  const parent2Instances = getInstancesForPal(combination.parent2, allInstances);
-  
+  const parent1Instances = getInstancesForPal(
+    combination.parent1,
+    allInstances,
+  );
+  const parent2Instances = getInstancesForPal(
+    combination.parent2,
+    allInstances,
+  );
+
   // Find matching traits and count occurrences
   const matchingTraits = useMemo(() => {
     if (traitFilter.length === 0) return [];
-    
-    const traitCounts = new Map<string, { parent1: boolean; parent2: boolean }>();
-    
+
+    const traitCounts = new Map<
+      string,
+      { parent1: boolean; parent2: boolean }
+    >();
+
     // Check parent1 instances
     parent1Instances.forEach((instance) => {
       traitFilter.forEach((trait) => {
         if (instance.traits.includes(trait)) {
-          const current = traitCounts.get(trait) || { parent1: false, parent2: false };
+          const current = traitCounts.get(trait) || {
+            parent1: false,
+            parent2: false,
+          };
           traitCounts.set(trait, { ...current, parent1: true });
         }
       });
     });
-    
+
     // Check parent2 instances
     parent2Instances.forEach((instance) => {
       traitFilter.forEach((trait) => {
         if (instance.traits.includes(trait)) {
-          const current = traitCounts.get(trait) || { parent1: false, parent2: false };
+          const current = traitCounts.get(trait) || {
+            parent1: false,
+            parent2: false,
+          };
           traitCounts.set(trait, { ...current, parent2: true });
         }
       });
     });
-    
+
     // Return traits that match, with their counts
     return Array.from(traitCounts.entries())
       .filter(([_, counts]) => counts.parent1 || counts.parent2)

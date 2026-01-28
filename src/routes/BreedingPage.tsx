@@ -20,7 +20,6 @@ import {
   getViableCombinations,
   getInstancesForPal,
 } from '../utils/breeding';
-import type { PalName } from '../types/pal';
 import type { PalInstance } from '../types/palInstance';
 import type { ViableCombination } from '../utils/breeding';
 
@@ -42,44 +41,57 @@ export default function BreedingPage() {
     return getViableCombinations(availableCombinations, palInstances);
   }, [availableCombinations, palInstances]);
 
-  /**
-   * Check if an instance has at least one of the required traits
-   */
-  const hasAtLeastOneTrait = (instance: PalInstance, requiredTraits: string[]): boolean => {
-    if (requiredTraits.length === 0) return true;
-    return requiredTraits.some((trait) => instance.traits.includes(trait));
-  };
-
-  /**
-   * Check if a combination has any matches when a trait filter is active
-   */
-  const hasMatches = (combination: ViableCombination, filter: string[]): boolean => {
-    if (filter.length === 0) return true;
-
-    const parent1Instances = getInstancesForPal(combination.combination.parent1, palInstances);
-    const parent2Instances = getInstancesForPal(combination.combination.parent2, palInstances);
-
-    // Check if any parent instances match
-    const hasParent1Match = parent1Instances.some((instance) =>
-      hasAtLeastOneTrait(instance, filter),
-    );
-    const hasParent2Match = parent2Instances.some((instance) =>
-      hasAtLeastOneTrait(instance, filter),
-    );
-
-    // Check if any viable pairs match
-    const hasViablePairMatch = combination.viablePairs.some(
-      (pair) =>
-        hasAtLeastOneTrait(pair.instance1, filter) ||
-        hasAtLeastOneTrait(pair.instance2, filter),
-    );
-
-    return hasParent1Match || hasParent2Match || hasViablePairMatch;
-  };
-
   // Filter out combinations that don't match the trait filter
   const filteredCombinations = React.useMemo(() => {
     if (traitFilter.length === 0) return viableCombinations;
+
+    /**
+     * Check if an instance has at least one of the required traits
+     */
+    const hasAtLeastOneTrait = (
+      instance: PalInstance,
+      requiredTraits: string[],
+    ): boolean => {
+      if (requiredTraits.length === 0) return true;
+      return requiredTraits.some((trait) => instance.traits.includes(trait));
+    };
+
+    /**
+     * Check if a combination has any matches when a trait filter is active
+     */
+    const hasMatches = (
+      combination: ViableCombination,
+      filter: string[],
+    ): boolean => {
+      if (filter.length === 0) return true;
+
+      const parent1Instances = getInstancesForPal(
+        combination.combination.parent1,
+        palInstances,
+      );
+      const parent2Instances = getInstancesForPal(
+        combination.combination.parent2,
+        palInstances,
+      );
+
+      // Check if any parent instances match
+      const hasParent1Match = parent1Instances.some((instance) =>
+        hasAtLeastOneTrait(instance, filter),
+      );
+      const hasParent2Match = parent2Instances.some((instance) =>
+        hasAtLeastOneTrait(instance, filter),
+      );
+
+      // Check if any viable pairs match
+      const hasViablePairMatch = combination.viablePairs.some(
+        (pair) =>
+          hasAtLeastOneTrait(pair.instance1, filter) ||
+          hasAtLeastOneTrait(pair.instance2, filter),
+      );
+
+      return hasParent1Match || hasParent2Match || hasViablePairMatch;
+    };
+
     return viableCombinations.filter((combination) =>
       hasMatches(combination, traitFilter),
     );

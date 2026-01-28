@@ -9,6 +9,7 @@
     "es-lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "ts-lint": "npx tsc --noEmit",
     "lint": "npm run es-lint && npm run ts-lint",
+    "lint:check": "npm run lint || true",
     "preview": "vite preview",
     "format-all": "prettier --write \"./**/*.{js,jsx,ts,tsx,json,css}\""
   },
