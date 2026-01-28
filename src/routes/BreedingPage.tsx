@@ -11,18 +11,23 @@ import {
 import { BreedingCombinationCard } from '../components/breedingCalculator/breedingCombinationCard/BreedingCombinationCard';
 import { BreedingPalInstanceManager } from '../components/breedingCalculator/BreedingPalInstanceManager';
 import { BreedingAlerts } from '../components/breedingCalculator/BreedingAlerts';
+import { TraitAutocomplete } from '../components/breedingCalculator/TraitAutocomplete';
 import { useStore } from '../store';
 import { PAL_NAME_LIST } from '../data/pals';
 import { BREEDING_DATA } from '../data/breeding';
 import {
   getAvailableCombinations,
   getViableCombinations,
+  getInstancesForPal,
 } from '../utils/breeding';
 import type { PalName } from '../types/pal';
+import type { PalInstance } from '../types/palInstance';
+import type { ViableCombination } from '../utils/breeding';
 
 export default function BreedingPage() {
   const [selectedPal, setSelectedPal] = React.useState<PalName | null>(null);
   const [activeTab, setActiveTab] = React.useState(0);
+  const [traitFilter, setTraitFilter] = React.useState<string[]>([]);
 
   const palInstances = useStore((store) => store.palInstances);
 
@@ -34,6 +39,49 @@ export default function BreedingPage() {
   const viableCombinations = React.useMemo(() => {
     return getViableCombinations(availableCombinations, palInstances);
   }, [availableCombinations, palInstances]);
+
+  /**
+   * Check if an instance has at least one of the required traits
+   */
+  const hasAtLeastOneTrait = (instance: PalInstance, requiredTraits: string[]): boolean => {
+    if (requiredTraits.length === 0) return true;
+    return requiredTraits.some((trait) => instance.traits.includes(trait));
+  };
+
+  /**
+   * Check if a combination has any matches when a trait filter is active
+   */
+  const hasMatches = (combination: ViableCombination, filter: string[]): boolean => {
+    if (filter.length === 0) return true;
+
+    const parent1Instances = getInstancesForPal(combination.combination.parent1, palInstances);
+    const parent2Instances = getInstancesForPal(combination.combination.parent2, palInstances);
+
+    // Check if any parent instances match
+    const hasParent1Match = parent1Instances.some((instance) =>
+      hasAtLeastOneTrait(instance, filter),
+    );
+    const hasParent2Match = parent2Instances.some((instance) =>
+      hasAtLeastOneTrait(instance, filter),
+    );
+
+    // Check if any viable pairs match
+    const hasViablePairMatch = combination.viablePairs.some(
+      (pair) =>
+        hasAtLeastOneTrait(pair.instance1, filter) ||
+        hasAtLeastOneTrait(pair.instance2, filter),
+    );
+
+    return hasParent1Match || hasParent2Match || hasViablePairMatch;
+  };
+
+  // Filter out combinations that don't match the trait filter
+  const filteredCombinations = React.useMemo(() => {
+    if (traitFilter.length === 0) return viableCombinations;
+    return viableCombinations.filter((combination) =>
+      hasMatches(combination, traitFilter),
+    );
+  }, [viableCombinations, traitFilter, palInstances]);
 
   const hasBreedingData = selectedPal
     ? (BREEDING_DATA[selectedPal]?.length ?? 0) > 0
@@ -84,15 +132,30 @@ export default function BreedingPage() {
           />
 
           {selectedPal && hasAvailableCombinations && (
-            <Stack spacing={2}>
-              {viableCombinations.map((viableCombination, index) => (
-                <BreedingCombinationCard
-                  key={index}
-                  viableCombination={viableCombination}
-                  allInstances={palInstances}
-                />
-              ))}
-            </Stack>
+            <>
+              <TraitAutocomplete
+                selectedTraits={traitFilter}
+                onChange={setTraitFilter}
+                label="Filter by traits (optional)"
+              />
+
+              <Stack spacing={2}>
+                {filteredCombinations.length > 0 ? (
+                  filteredCombinations.map((viableCombination, index) => (
+                    <BreedingCombinationCard
+                      key={index}
+                      viableCombination={viableCombination}
+                      allInstances={palInstances}
+                      traitFilter={traitFilter}
+                    />
+                  ))
+                ) : (
+                  <Typography variant="body1" color="text.secondary">
+                    No breeding combinations match the selected traits.
+                  </Typography>
+                )}
+              </Stack>
+            </>
           )}
 
           {!selectedPal && (
