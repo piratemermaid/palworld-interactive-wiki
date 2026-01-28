@@ -1,6 +1,11 @@
-import { Checkbox, Grid, Typography } from '@mui/material';
+import {
+  Checkbox,
+  Grid,
+  Typography,
+} from '@mui/material';
 
 import { PAL_NAME_LIST } from '../data/pals';
+import { PAL_DATA } from '../data/pals';
 import MyPalCard from '../components/MyPalCard';
 import React from 'react';
 import { useStore } from '../store';
@@ -8,20 +13,45 @@ import { useStore } from '../store';
 type CaughtFilter = 'caught' | 'uncaught' | null;
 type CaughtTenFilter = 'caught' | 'uncaught' | null;
 
-export default function MyPalsPage() {
-  const [caughtFilter, setCaughtFilter] = React.useState<CaughtFilter>(null);
-  const [caughtTenFilter, setCaughtTenFilter] =
-    React.useState<CaughtTenFilter>(null);
+const parsePaldeckNo = (paldeckNo: string) => {
+  // Examples: "005", "005b"
+  const match = /^(\d+)([a-z]*)$/i.exec(paldeckNo.trim());
+  if (!match) return { num: Number.NaN, suffix: paldeckNo };
+  return { num: Number(match[1]), suffix: match[2]?.toLowerCase() ?? '' };
+};
 
+const comparePaldeckNo = (a: string, b: string) => {
+  const pa = parsePaldeckNo(a);
+  const pb = parsePaldeckNo(b);
+
+  if (!Number.isNaN(pa.num) && !Number.isNaN(pb.num) && pa.num !== pb.num) {
+    return pa.num - pb.num;
+  }
+
+  // If same number (or unparsable), compare suffix ("" before "b")
+  if (pa.suffix !== pb.suffix) return pa.suffix.localeCompare(pb.suffix);
+
+  // Fallback: full string
+  return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+};
+
+export default function MyPalsPage() {
   const userPals = useStore((store) => store.userPals);
   const userPalsCaughtTen = useStore((store) => store.userPalsCaughtTen);
+
+  const caughtFilter = useStore((store) => store.myPalsCaughtFilter);
+  const setCaughtFilter = useStore((store) => store.setMyPalsCaughtFilter);
+
+  const caughtTenFilter = useStore((store) => store.myPalsCaughtTenFilter);
+  const setCaughtTenFilter = useStore((store) => store.setMyPalsCaughtTenFilter);
+
+  const sortBy = useStore((store) => store.myPalsSortBy);
+  const setSortBy = useStore((store) => store.setMyPalsSortBy);
 
   const handleCaughtFilterChange = (
     selectedFilter: CaughtFilter,
     filter: CaughtFilter | CaughtTenFilter,
-    updateFn: React.Dispatch<
-      React.SetStateAction<CaughtFilter | CaughtTenFilter>
-    >,
+    updateFn: (next: CaughtFilter | CaughtTenFilter) => void,
   ) => {
     if (selectedFilter === filter) {
       updateFn(null);
@@ -30,7 +60,7 @@ export default function MyPalsPage() {
     }
   };
 
-  const palsToDisplay = !caughtFilter
+  const filteredPals = !caughtFilter
     ? PAL_NAME_LIST
     : PAL_NAME_LIST.filter((pal) => {
         if (caughtFilter === 'uncaught') {
@@ -52,6 +82,34 @@ export default function MyPalsPage() {
         return pal;
       });
 
+  const palsToDisplay = React.useMemo(() => {
+    const pals = [...filteredPals];
+
+    if (sortBy === 'name') {
+      pals.sort((a, b) =>
+        a.localeCompare(b, undefined, { sensitivity: 'base' }),
+      );
+      return pals;
+    }
+
+    // Default: Paldeck No
+    pals.sort((a, b) => {
+      const aNo = PAL_DATA[a]?.paldeckNo;
+      const bNo = PAL_DATA[b]?.paldeckNo;
+
+      // Put missing data at the end (and keep deterministic order)
+      if (!aNo && !bNo) return a.localeCompare(b, undefined, { sensitivity: 'base' });
+      if (!aNo) return 1;
+      if (!bNo) return -1;
+
+      const byNo = comparePaldeckNo(aNo, bNo);
+      if (byNo !== 0) return byNo;
+      return a.localeCompare(b, undefined, { sensitivity: 'base' });
+    });
+
+    return pals;
+  }, [filteredPals, sortBy]);
+
   return (
     <Grid container direction="column" spacing={3}>
       <Grid item>
@@ -59,30 +117,55 @@ export default function MyPalsPage() {
       </Grid>
 
       <Grid item sx={{ textAlign: 'left' }}>
-        <Grid container spacing={1}>
-          <Grid
-            item
-            onClick={() =>
-              handleCaughtFilterChange('caught', caughtFilter, setCaughtFilter)
-            }
-            className="hover"
-          >
-            <Checkbox checked={caughtFilter === 'caught'} />
-            Only Caught
+        <Grid container spacing={1} justifyContent="space-between">
+          <Grid item>
+            <Grid container spacing={1}>
+              <Grid
+                item
+                onClick={() =>
+                  handleCaughtFilterChange(
+                    'caught',
+                    caughtFilter,
+                    setCaughtFilter,
+                  )
+                }
+                className="hover"
+              >
+                <Checkbox checked={caughtFilter === 'caught'} />
+                Only Caught
+              </Grid>
+              <Grid
+                item
+                onClick={() =>
+                  handleCaughtFilterChange(
+                    'uncaught',
+                    caughtFilter,
+                    setCaughtFilter,
+                  )
+                }
+                className="hover"
+              >
+                <Checkbox checked={caughtFilter === 'uncaught'} />
+                Only Uncaught
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid
-            item
-            onClick={() =>
-              handleCaughtFilterChange(
-                'uncaught',
-                caughtFilter,
-                setCaughtFilter,
-              )
-            }
-            className="hover"
-          >
-            <Checkbox checked={caughtFilter === 'uncaught'} />
-            Only Uncaught
+
+          <Grid item>
+            <Grid container spacing={1} justifyContent="flex-end">
+              <Grid
+                item
+                onClick={() => setSortBy('paldeckNo')}
+                className="hover"
+              >
+                <Checkbox checked={sortBy === 'paldeckNo'} />
+                Sort: Paldeck No
+              </Grid>
+              <Grid item onClick={() => setSortBy('name')} className="hover">
+                <Checkbox checked={sortBy === 'name'} />
+                Sort: Name
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

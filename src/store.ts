@@ -27,6 +27,13 @@ type State = {
 
   breedingTraitFilter: string[];
   setBreedingTraitFilter: (traits: string[]) => void;
+
+  myPalsCaughtFilter: 'caught' | 'uncaught' | null;
+  setMyPalsCaughtFilter: (filter: 'caught' | 'uncaught' | null) => void;
+  myPalsCaughtTenFilter: 'caught' | 'uncaught' | null;
+  setMyPalsCaughtTenFilter: (filter: 'caught' | 'uncaught' | null) => void;
+  myPalsSortBy: 'paldeckNo' | 'name';
+  setMyPalsSortBy: (sortBy: 'paldeckNo' | 'name') => void;
 };
 
 export const useStore = create<State, [['zustand/persist', State]]>(
@@ -97,6 +104,14 @@ export const useStore = create<State, [['zustand/persist', State]]>(
 
       breedingTraitFilter: [],
       setBreedingTraitFilter: (traits) => set({ breedingTraitFilter: traits }),
+
+      myPalsCaughtFilter: null,
+      setMyPalsCaughtFilter: (filter) => set({ myPalsCaughtFilter: filter }),
+      myPalsCaughtTenFilter: null,
+      setMyPalsCaughtTenFilter: (filter) =>
+        set({ myPalsCaughtTenFilter: filter }),
+      myPalsSortBy: 'paldeckNo',
+      setMyPalsSortBy: (sortBy) => set({ myPalsSortBy: sortBy }),
     }),
     {
       name: 'store',
