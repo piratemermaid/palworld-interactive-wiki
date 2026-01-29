@@ -1,6 +1,4 @@
-import type { PalWorkSuitabilityList } from '../types/workSuitability';
-
-const PAL_WORK_SUITABILITY: PalWorkSuitabilityList = {
+export const PAL_WORK_SUITABILITY: PalWorkSuitabilityList = {
   Lamball: [
     { name: 'Transporting', level: 1 },
     { name: 'Farming', level: 1, product: 'Wool' },
@@ -426,9 +424,7 @@ const PAL_WORK_SUITABILITY: PalWorkSuitabilityList = {
     { name: 'Gathering', level: 1 },
   ],
   Azurobe: [{ name: 'Watering', level: 3 }],
-  'Azurobe Cryst': [
-    { name: 'Cooling', level: 3 },
-  ],
+  'Azurobe Cryst': [{ name: 'Cooling', level: 3 }],
   Cryolinx: [
     { name: 'Transporting', level: 3 },
     { name: 'Cooling', level: 3 },
@@ -830,5 +826,3 @@ const PAL_WORK_SUITABILITY: PalWorkSuitabilityList = {
   ],
   Neptilius: [{ name: 'Watering', level: 4 }],
 };
-
-export default PAL_WORK_SUITABILITY;

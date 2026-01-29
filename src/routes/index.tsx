@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import { map } from 'lodash';
 
 import App from '../App';
-import { ROUTES } from '../constants/routes';
+import { ROUTES } from '@constants/routes';
 
 const router = createBrowserRouter([
   {

@@ -2,10 +2,10 @@ import { Link, useLocation } from 'react-router-dom';
 import { map } from 'lodash';
 import { Box, Button, FormLabel, Grid, Switch } from '@mui/material';
 
-import { useStore } from '../store';
-import { ROUTES } from '../constants/routes';
+import { useStore } from '@store';
+import { ROUTES } from '@constants';
 
-export default function Header() {
+export const Header = () => {
   const darkMode = useStore((store) => store.darkMode);
   const toggleDarkMode = useStore((store) => store.toggleDarkMode);
 
@@ -40,4 +40,4 @@ export default function Header() {
       </Grid>
     </Grid>
   );
-}
+};

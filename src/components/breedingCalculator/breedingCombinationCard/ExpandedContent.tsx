@@ -1,10 +1,10 @@
 import { Grid, Collapse, Stack } from '@mui/material';
 
-import { ParentInstancesSection } from './ParentInstancesSection';
-import { ViablePairsSection } from './ViablePairsSection';
-import { getInstancesForPal } from '../../../utils/breeding';
-import type { PalInstance } from '../../../types/palInstance';
-import type { BreedingCombination } from '../../../data/breeding';
+import {
+  ParentInstancesSection,
+  ViablePairsSection,
+} from '@components/breedingCalculator';
+import { getInstancesForPal } from '@utils/breeding';
 
 type Props = {
   combination: BreedingCombination;
@@ -20,7 +20,10 @@ type Props = {
 /**
  * Check if an instance has at least one of the required traits
  */
-const hasAtLeastOneTrait = (instance: PalInstance, requiredTraits: string[]): boolean => {
+const hasAtLeastOneTrait = (
+  instance: PalInstance,
+  requiredTraits: string[],
+): boolean => {
   if (requiredTraits.length === 0) return true;
   return requiredTraits.some((trait) => instance.traits.includes(trait));
 };

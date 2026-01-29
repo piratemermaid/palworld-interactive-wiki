@@ -1,7 +1,3 @@
-import type { PalName } from '../types/pal';
-import type { PalInstance, Gender } from '../types/palInstance';
-import type { BreedingCombination, BreedingData } from '../data/breeding';
-
 /**
  * Get all instances for a specific pal name
  */
@@ -47,32 +43,13 @@ export function getAvailableCombinations(
   );
 }
 
-/**
- * Get viable combinations (available AND gender-compatible)
- * Returns combinations with their viable instance pairs
- */
-export type ViableCombination = {
-  combination: BreedingCombination;
-  viablePairs: Array<{
-    instance1: PalInstance;
-    instance2: PalInstance;
-  }>;
-  hasViablePair: boolean;
-};
-
 export function getViableCombinations(
   combinations: BreedingCombination[],
   instances: PalInstance[],
 ): ViableCombination[] {
   return combinations.map((combination) => {
-    const parent1Instances = getInstancesForPal(
-      combination.parent1,
-      instances,
-    );
-    const parent2Instances = getInstancesForPal(
-      combination.parent2,
-      instances,
-    );
+    const parent1Instances = getInstancesForPal(combination.parent1, instances);
+    const parent2Instances = getInstancesForPal(combination.parent2, instances);
 
     const viablePairs: Array<{
       instance1: PalInstance;

@@ -1,9 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import type { PalName } from './types/pal';
-import type { PalInstance } from './types/palInstance';
-
 type State = {
   darkMode: boolean;
   toggleDarkMode: () => void;

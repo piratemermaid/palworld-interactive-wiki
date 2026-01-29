@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
-import Header from './components/Header';
-import { useStore } from './store';
-import { lightTheme, darkTheme } from './styles/themes';
-import './App.css';
+import { Header } from '@components/layout';
+import { useStore } from '@store';
+import { lightTheme, darkTheme } from '@styles/themes';
+import '@styles/App.css';
 
 function App() {
   const darkMode = useStore((store) => store.darkMode);

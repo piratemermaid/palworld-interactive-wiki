@@ -27,14 +27,14 @@ import {
   Clear as ClearIcon,
 } from '@mui/icons-material';
 
-import { PalInstanceCard } from './instanceCards/PalInstanceCard';
-import { InstanceFormFields } from './instanceCards/InstanceFormFields';
-import { BreedingWarning } from './BreedingWarning';
-import { useStore } from '../../store';
-import { getInstancesForPal } from '../../utils/breeding';
-import { BREEDING_DATA } from '../../data/breeding';
-import type { PalInstance, Gender } from '../../types/palInstance';
-import type { PalName } from '../../types/pal';
+import {
+  BreedingWarning,
+  PalInstanceCard,
+  InstanceFormFields,
+} from '@components/breedingCalculator';
+import { useStore } from '@store';
+import { getInstancesForPal } from '@utils/breeding';
+import { BREEDING_DATA } from '@data/breeding';
 
 type Props = {
   targetPal?: PalName | null;

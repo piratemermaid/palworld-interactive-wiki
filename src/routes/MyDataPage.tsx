@@ -4,9 +4,9 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import type { SvgIconComponent } from '@mui/icons-material';
 
-import { useStore } from '../store';
+import { useStore } from '@store';
 
-export default function MyDataPage() {
+export const MyDataPage = () => {
   const [data, setData] = React.useState('');
 
   const store = useStore((store) => store);
@@ -61,7 +61,7 @@ export default function MyDataPage() {
       </Grid>
     </>
   );
-}
+};
 
 type ImportExportSectionProps = {
   title: string;

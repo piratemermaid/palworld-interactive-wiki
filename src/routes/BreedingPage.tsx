@@ -8,22 +8,21 @@ import {
   Tab,
 } from '@mui/material';
 
-import { BreedingCombinationCard } from '../components/breedingCalculator/breedingCombinationCard/BreedingCombinationCard';
-import { BreedingPalInstanceManager } from '../components/breedingCalculator/BreedingPalInstanceManager';
-import { BreedingAlerts } from '../components/breedingCalculator/BreedingAlerts';
-import { TraitAutocomplete } from '../components/breedingCalculator/TraitAutocomplete';
-import { useStore } from '../store';
-import { PAL_NAME_LIST } from '../data/pals';
-import { BREEDING_DATA } from '../data/breeding';
+import {
+  BreedingCombinationCard,
+  BreedingPalInstanceManager,
+  BreedingAlerts,
+  TraitAutocomplete,
+} from '@components/breedingCalculator';
+import { useStore } from '@store';
 import {
   getAvailableCombinations,
   getViableCombinations,
   getInstancesForPal,
-} from '../utils/breeding';
-import type { PalInstance } from '../types/palInstance';
-import type { ViableCombination } from '../utils/breeding';
+} from '@utils/breeding';
+import { PAL_NAME_LIST, BREEDING_DATA } from '@data';
 
-export default function BreedingPage() {
+export const BreedingPage = () => {
   const [activeTab, setActiveTab] = React.useState(0);
 
   const palInstances = useStore((store) => store.palInstances);
@@ -182,4 +181,4 @@ export default function BreedingPage() {
       )}
     </Stack>
   );
-}
+};

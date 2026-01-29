@@ -14,7 +14,7 @@ const recentUpdates = [
   'First 2026 update: added breeding page for finding good breeding combinations - currently only has Anubis data lol',
 ];
 
-export default function HomePage() {
+export const HomePage = () => {
   return (
     <Grid container direction="column" spacing={2} sx={{ mt: 2 }}>
       <Grid item>
@@ -53,7 +53,7 @@ export default function HomePage() {
       </Grid>
     </Grid>
   );
-}
+};
 
 type TodoItemProps = { text: string };
 

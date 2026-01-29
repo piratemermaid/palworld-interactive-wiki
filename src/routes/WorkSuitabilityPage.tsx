@@ -1,5 +1,5 @@
-import PalWorkSuitability from '../components/workSuitability/PalWorkSuitability';
+import { PalWorkSuitability } from '@components/workSuitability';
 
-export default function WorkSuitabilityPage() {
+export const WorkSuitabilityPage = () => {
   return <PalWorkSuitability />;
-}
+};

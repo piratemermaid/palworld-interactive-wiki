@@ -1,13 +1,13 @@
 import { Card, Checkbox, Grid, Typography } from '@mui/material';
 
-import { useStore } from '../store';
-import { PAL_DATA } from '../data/pals';
+import { useStore } from '@store';
+import { PAL_DATA } from '@data/pals';
 
 type Props = {
   palName: string;
 };
 
-export default function MyPalCard({ palName }: Props) {
+export const MyPalCard = ({ palName }: Props) => {
   const userPals = useStore((store) => store.userPals);
   const updateUserPals = useStore((store) => store.updateUserPals);
   const userPalsCaughtTen = useStore((store) => store.userPalsCaughtTen);
@@ -77,4 +77,4 @@ export default function MyPalCard({ palName }: Props) {
       </Card>
     </Grid>
   );
-}
+};

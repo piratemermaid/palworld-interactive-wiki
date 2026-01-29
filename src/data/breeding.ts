@@ -1,12 +1,3 @@
-import type { PalName } from '../types/pal';
-
-export type BreedingCombination = {
-  parent1: PalName;
-  parent2: PalName;
-};
-
-export type BreedingData = Record<PalName, BreedingCombination[]>;
-
 // Breeding combinations data
 export const BREEDING_DATA: BreedingData = {
   Anubis: [

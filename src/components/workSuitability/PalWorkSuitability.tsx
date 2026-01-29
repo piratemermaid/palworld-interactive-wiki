@@ -10,20 +10,16 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info';
-import ClearIcon from '@mui/icons-material/Clear';
+import { Info as InfoIcon, Clear as ClearIcon } from '@mui/icons-material';
 
-import PalWorkSuitabilityCard from './PalWorkSuitabilityCard';
-import WorkSuitabilityImage from './WorkSuitabilityImage';
-import PAL_WORK_SUITABILITY from '../../data/palWorkSuitability';
-import { useStore } from '../../store';
-import { WORK_SUITABILITY_TYPES } from '../../constants/workSuitability';
-import { PAL_DATA } from '../../data/pals';
-import { filterObject } from '../../utils/object';
-import type {
-  WorkSuitability,
-  PalWorkSuitability,
-} from '../../types/workSuitability';
+import {
+  PalWorkSuitabilityCard,
+  WorkSuitabilityImage,
+} from '@components/workSuitability';
+import { useStore } from '@store';
+import { filterObject } from '@utils/object';
+import { WORK_SUITABILITY_TYPES } from '@constants/workSuitability';
+import { PAL_WORK_SUITABILITY, PAL_DATA } from '@data';
 
 type FilterName = 'workSuitability' | 'levels' | 'havePal';
 
@@ -33,7 +29,7 @@ type Filters = {
   havePal: boolean;
 };
 
-export default function PalWorkSuitability() {
+export const PalWorkSuitability = () => {
   const [filters, setFilters] = React.useState<Filters>({
     workSuitability: [],
     levels: [],
@@ -209,4 +205,4 @@ export default function PalWorkSuitability() {
       </Grid>
     </Grid>
   );
-}
+};

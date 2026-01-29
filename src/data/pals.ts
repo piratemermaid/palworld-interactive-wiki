@@ -1,7 +1,6 @@
 import { map } from 'lodash';
 
-import PAL_WORK_SUITABILITY from './palWorkSuitability';
-import type { PalData } from '../types/pal';
+import { PAL_WORK_SUITABILITY } from '@data/palWorkSuitability';
 
 export const PAL_DATA: PalData = {
   Lamball: {

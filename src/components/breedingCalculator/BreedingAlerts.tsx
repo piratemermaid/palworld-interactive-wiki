@@ -1,6 +1,5 @@
 import { Alert, Stack, Typography } from '@mui/material';
 
-import type { PalName } from '../../types/pal';
 import { CheckCircle as CheckCircleIcon } from '@mui/icons-material';
 
 type Props = {

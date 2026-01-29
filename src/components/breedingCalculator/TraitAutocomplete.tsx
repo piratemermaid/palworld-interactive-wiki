@@ -8,7 +8,7 @@ import {
   Stack,
 } from '@mui/material';
 
-import { PASSIVE_SKILLS } from '../../data/passiveSkills';
+import { PASSIVE_SKILLS } from '@data/passiveSkills';
 
 type Props = {
   selectedTraits: string[];

@@ -5,8 +5,7 @@ import {
   FormControlLabel,
 } from '@mui/material';
 
-import { TraitAutocomplete } from '../TraitAutocomplete';
-import type { Gender } from '../../../types/palInstance';
+import { TraitAutocomplete } from '@components/breedingCalculator';
 
 type Props = {
   gender: Gender;

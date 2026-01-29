@@ -1,14 +1,9 @@
-import {
-  Checkbox,
-  Grid,
-  Typography,
-} from '@mui/material';
-
-import { PAL_NAME_LIST } from '../data/pals';
-import { PAL_DATA } from '../data/pals';
-import MyPalCard from '../components/MyPalCard';
 import React from 'react';
-import { useStore } from '../store';
+import { Checkbox, Grid, Typography } from '@mui/material';
+
+import { MyPalCard } from '@components/myPals';
+import { useStore } from '@store';
+import { PAL_NAME_LIST, PAL_DATA } from '@data';
 
 type CaughtFilter = 'caught' | 'uncaught' | null;
 type CaughtTenFilter = 'caught' | 'uncaught' | null;
@@ -35,7 +30,7 @@ const comparePaldeckNo = (a: string, b: string) => {
   return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
 };
 
-export default function MyPalsPage() {
+export const MyPalsPage = () => {
   const userPals = useStore((store) => store.userPals);
   const userPalsCaughtTen = useStore((store) => store.userPalsCaughtTen);
 
@@ -43,7 +38,9 @@ export default function MyPalsPage() {
   const setCaughtFilter = useStore((store) => store.setMyPalsCaughtFilter);
 
   const caughtTenFilter = useStore((store) => store.myPalsCaughtTenFilter);
-  const setCaughtTenFilter = useStore((store) => store.setMyPalsCaughtTenFilter);
+  const setCaughtTenFilter = useStore(
+    (store) => store.setMyPalsCaughtTenFilter,
+  );
 
   const sortBy = useStore((store) => store.myPalsSortBy);
   const setSortBy = useStore((store) => store.setMyPalsSortBy);
@@ -98,7 +95,8 @@ export default function MyPalsPage() {
       const bNo = PAL_DATA[b]?.paldeckNo;
 
       // Put missing data at the end (and keep deterministic order)
-      if (!aNo && !bNo) return a.localeCompare(b, undefined, { sensitivity: 'base' });
+      if (!aNo && !bNo)
+        return a.localeCompare(b, undefined, { sensitivity: 'base' });
       if (!aNo) return 1;
       if (!bNo) return -1;
 
@@ -220,4 +218,4 @@ export default function MyPalsPage() {
       </Grid>
     </Grid>
   );
-}
+};

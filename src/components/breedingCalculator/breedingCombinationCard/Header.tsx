@@ -4,8 +4,6 @@ import {
   Cancel as CancelIcon,
 } from '@mui/icons-material';
 
-import type { BreedingCombination } from '../../../data/breeding';
-
 type MatchingTrait = {
   trait: string;
   count: number;

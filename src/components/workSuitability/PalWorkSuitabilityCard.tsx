@@ -1,17 +1,16 @@
 import { Grid, Typography } from '@mui/material';
 
-import WorkSuitabilityImage from './WorkSuitabilityImage';
-import type { PalWorkSuitability } from '../../types/workSuitability';
+import { WorkSuitabilityImage } from '@components/workSuitability';
 
 type Props = {
   palWorkSuitability: PalWorkSuitability;
   isActive: boolean;
 };
 
-export default function PalWorkSuitabilityCard({
+export const PalWorkSuitabilityCard = ({
   palWorkSuitability,
   isActive,
-}: Props) {
+}: Props) => {
   const { name, level, product } = palWorkSuitability;
 
   return (
@@ -32,4 +31,4 @@ export default function PalWorkSuitabilityCard({
       </Grid>
     </Grid>
   );
-}
+};

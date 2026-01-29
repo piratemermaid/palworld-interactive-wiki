@@ -1,8 +1,8 @@
 import { Grid, List, ListItem, Typography } from '@mui/material';
 
-import { PASSIVE_SKILLS, PASSIVE_SKILL_TYPES } from '../data/passiveSkills';
+import { PASSIVE_SKILLS, PASSIVE_SKILL_TYPES } from '@data/passiveSkills';
 
-export default function PassiveSkillsPage() {
+export const PassiveSkillsPage = () => {
   return (
     <>
       <Typography variant="h2" sx={{ my: 2 }}>
@@ -50,4 +50,4 @@ export default function PassiveSkillsPage() {
       </Grid>
     </>
   );
-}
+};

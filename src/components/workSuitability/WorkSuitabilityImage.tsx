@@ -1,6 +1,4 @@
-import { CSSProperties } from 'react';
-
-import type { WorkSuitability } from '../../types/workSuitability';
+import type { CSSProperties } from 'react';
 
 type Props = {
   name: WorkSuitability;
@@ -8,11 +6,7 @@ type Props = {
   customStyles?: CSSProperties;
 };
 
-export default function WorkSuitabilityImage({
-  name,
-  size,
-  customStyles,
-}: Props) {
+export const WorkSuitabilityImage = ({ name, size, customStyles }: Props) => {
   const sizeStyle = size ? { height: size, width: size } : {};
 
   return (
@@ -23,4 +17,4 @@ export default function WorkSuitabilityImage({
       style={{ ...sizeStyle, ...customStyles }}
     />
   );
-}
+};

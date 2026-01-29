@@ -1,8 +1,6 @@
 import { Card, Stack, Typography } from '@mui/material';
 
-import { BreedingPalChip } from './BreedingPalChip';
-import { TraitChip } from '../TraitChip';
-import type { ViablePair } from '../../../types/palInstance';
+import { BreedingPalChip, TraitChip } from '@components/breedingCalculator';
 
 type Props = {
   pair: ViablePair;

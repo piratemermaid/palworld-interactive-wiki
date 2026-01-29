@@ -1,9 +1,8 @@
 import { Card, Stack, Typography, Box, IconButton } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 
-import { TraitChip } from '../TraitChip';
-import { getGenderColor } from '../../../utils/breeding';
-import type { PalInstance } from '../../../types/palInstance';
+import { TraitChip } from '@components/breedingCalculator';
+import { getGenderColor } from '@utils/breeding';
 
 type Props = {
   instance: PalInstance;

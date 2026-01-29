@@ -1,5 +1,3 @@
-import { PassiveSkill } from '../types/passiveSkills';
-
 export const PASSIVE_SKILL_TYPES = [
   'Attack',
   'Defense',

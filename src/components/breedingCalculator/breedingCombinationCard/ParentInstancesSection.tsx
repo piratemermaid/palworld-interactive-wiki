@@ -1,8 +1,6 @@
 import { Grid, Stack, Typography } from '@mui/material';
 
-import { InstanceDisplayCard } from '../instanceCards/InstanceDisplayCard';
-import type { PalInstance } from '../../../types/palInstance';
-import type { PalName } from '../../../types/pal';
+import { InstanceDisplayCard } from '@components/breedingCalculator';
 
 type Props = {
   palName: PalName;

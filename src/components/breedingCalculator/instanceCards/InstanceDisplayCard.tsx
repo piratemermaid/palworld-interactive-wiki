@@ -1,8 +1,6 @@
 import { Card, Typography, Stack } from '@mui/material';
 
-import { BreedingPalChip } from '../breedingCombinationCard/BreedingPalChip';
-import { TraitChip } from '../TraitChip';
-import type { PalInstance } from '../../../types/palInstance';
+import { BreedingPalChip, TraitChip } from '@components/breedingCalculator';
 
 type Props = {
   instance: PalInstance;

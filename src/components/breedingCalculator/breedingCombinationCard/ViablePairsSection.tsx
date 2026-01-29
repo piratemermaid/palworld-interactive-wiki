@@ -1,12 +1,6 @@
 import { Box, Typography, Stack } from '@mui/material';
 
-import { ViablePairCard } from './ViablePairCard';
-import type { PalInstance } from '../../../types/palInstance';
-
-type ViablePair = {
-  instance1: PalInstance;
-  instance2: PalInstance;
-};
+import { ViablePairCard } from '@components/breedingCalculator';
 
 type Props = {
   viablePairs: ViablePair[];

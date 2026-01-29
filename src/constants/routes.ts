@@ -6,7 +6,7 @@ import {
   MyDataPage,
   BreedingPage,
   MyPalsPage,
-} from '../routes/pages';
+} from '@routes/pages';
 
 type Route = { url: string; label: string; Component: () => JSX.Element };
 

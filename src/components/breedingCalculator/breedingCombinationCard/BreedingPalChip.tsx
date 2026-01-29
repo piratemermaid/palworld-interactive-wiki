@@ -1,8 +1,6 @@
 import { Chip } from '@mui/material';
 
-import { getGenderColor } from '../../../utils/breeding';
-import type { PalName } from '../../../types/pal';
-import type { Gender } from '../../../types/palInstance';
+import { getGenderColor } from '@utils/breeding';
 
 type Props = {
   palName: PalName;

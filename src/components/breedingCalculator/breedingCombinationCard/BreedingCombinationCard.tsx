@@ -1,12 +1,12 @@
 import { useState, useMemo } from 'react';
 import { Card, CardContent, Grid } from '@mui/material';
 
-import { BreedingCombinationHeader } from './Header';
-import { BreedingCombinationActions } from './Actions';
-import { BreedingCombinationExpandedContent } from './ExpandedContent';
-import { getInstancesForPal } from '../../../utils/breeding';
-import type { PalInstance } from '../../../types/palInstance';
-import type { ViableCombination } from '../../../utils/breeding';
+import {
+  BreedingCombinationHeader,
+  BreedingCombinationActions,
+  BreedingCombinationExpandedContent,
+} from '@components/breedingCalculator';
+import { getInstancesForPal } from '@utils/breeding';
 
 type Props = {
   viableCombination: ViableCombination;

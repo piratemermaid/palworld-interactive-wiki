@@ -1,9 +1,9 @@
 import { Card, Grid, Typography } from '@mui/material';
 import { map } from 'lodash';
 
-import { PAL_DATA } from '../data/pals';
+import { PAL_DATA } from '@data/pals';
 
-export default function PalDataPage() {
+export const PalDataPage = () => {
   return (
     <>
       <Typography variant="h2" sx={{ mb: 2 }}>
@@ -29,4 +29,4 @@ export default function PalDataPage() {
       </Grid>
     </>
   );
-}
+};
