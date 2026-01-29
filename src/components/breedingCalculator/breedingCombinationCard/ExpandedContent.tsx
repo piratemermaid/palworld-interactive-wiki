@@ -9,12 +9,12 @@ import { getInstancesForPal } from '@utils/breeding';
 type Props = {
   combination: BreedingCombination;
   allInstances: PalInstance[];
-  viablePairs: Array<{
-    instance1: PalInstance;
-    instance2: PalInstance;
-  }>;
+  viablePairs: ViablePair[];
   expanded: boolean;
   traitFilter?: string[];
+  targetPal?: PalName | null;
+  onSavePair?: (pair: ViablePair) => void;
+  savedPairIds?: Set<string>;
 };
 
 /**
@@ -34,6 +34,9 @@ export const BreedingCombinationExpandedContent = ({
   viablePairs,
   expanded,
   traitFilter = [],
+  targetPal,
+  onSavePair,
+  savedPairIds,
 }: Props) => {
   const allParent1Instances = getInstancesForPal(
     combination.parent1,
@@ -74,7 +77,12 @@ export const BreedingCombinationExpandedContent = ({
         </Grid>
 
         {filteredViablePairs.length > 0 && (
-          <ViablePairsSection viablePairs={filteredViablePairs} />
+          <ViablePairsSection
+            viablePairs={filteredViablePairs}
+            targetPal={targetPal}
+            onSavePair={onSavePair}
+            savedPairIds={savedPairIds}
+          />
         )}
       </Stack>
     </Collapse>

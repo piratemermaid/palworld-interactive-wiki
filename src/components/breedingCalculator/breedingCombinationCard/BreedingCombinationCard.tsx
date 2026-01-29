@@ -12,6 +12,9 @@ type Props = {
   viableCombination: ViableCombination;
   allInstances: PalInstance[];
   traitFilter?: string[];
+  targetPal?: PalName | null;
+  onSavePair?: (pair: ViablePair) => void;
+  savedPairIds?: Set<string>;
 };
 
 const getCardStyles = (hasViablePair: boolean) => ({
@@ -24,6 +27,9 @@ export const BreedingCombinationCard = ({
   viableCombination,
   allInstances,
   traitFilter = [],
+  targetPal,
+  onSavePair,
+  savedPairIds,
 }: Props) => {
   const [expanded, setExpanded] = useState(false);
   const { combination, viablePairs, hasViablePair } = viableCombination;
@@ -116,6 +122,9 @@ export const BreedingCombinationCard = ({
               viablePairs={viablePairs}
               expanded={expanded}
               traitFilter={traitFilter}
+              targetPal={targetPal}
+              onSavePair={onSavePair}
+              savedPairIds={savedPairIds}
             />
           </Grid>
         </Grid>

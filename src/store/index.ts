@@ -31,6 +31,12 @@ type State = {
   setMyPalsCaughtTenFilter: (filter: 'caught' | 'uncaught' | null) => void;
   myPalsSortBy: 'paldeckNo' | 'name';
   setMyPalsSortBy: (sortBy: 'paldeckNo' | 'name') => void;
+
+  breedingPlans: Record<PalName, ViablePair[]>;
+  addBreedingPlanPair: (targetPal: PalName, pair: ViablePair) => void;
+  removeBreedingPlanPair: (targetPal: PalName, pairId: string) => void;
+  getBreedingPlan: (targetPal: PalName) => ViablePair[];
+  clearBreedingPlan: (targetPal: PalName) => void;
 };
 
 export const useStore = create<State, [['zustand/persist', State]]>(
@@ -109,6 +115,46 @@ export const useStore = create<State, [['zustand/persist', State]]>(
         set({ myPalsCaughtTenFilter: filter }),
       myPalsSortBy: 'paldeckNo',
       setMyPalsSortBy: (sortBy) => set({ myPalsSortBy: sortBy }),
+
+      breedingPlans: {},
+      addBreedingPlanPair: (targetPal, pair) => {
+        const plans = get().breedingPlans;
+        const existingPairs = plans[targetPal] || [];
+        // Check if pair already exists (by comparing instance IDs)
+        const pairExists = existingPairs.some(
+          (p) =>
+            p.instance1.id === pair.instance1.id &&
+            p.instance2.id === pair.instance2.id,
+        );
+        if (!pairExists) {
+          set({
+            breedingPlans: {
+              ...plans,
+              [targetPal]: [...existingPairs, pair],
+            },
+          });
+        }
+      },
+      removeBreedingPlanPair: (targetPal, pairId) => {
+        const plans = get().breedingPlans;
+        const existingPairs = plans[targetPal] || [];
+        set({
+          breedingPlans: {
+            ...plans,
+            [targetPal]: existingPairs.filter(
+              (p) => p.instance1.id + p.instance2.id !== pairId,
+            ),
+          },
+        });
+      },
+      getBreedingPlan: (targetPal) => {
+        return get().breedingPlans[targetPal] || [];
+      },
+      clearBreedingPlan: (targetPal) => {
+        const plans = get().breedingPlans;
+        const { [targetPal]: _, ...rest } = plans;
+        set({ breedingPlans: rest });
+      },
     }),
     {
       name: 'store',

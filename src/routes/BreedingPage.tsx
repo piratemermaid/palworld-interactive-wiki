@@ -14,6 +14,7 @@ import {
   BreedingAlerts,
   TraitAutocomplete,
   TraitCategorySelector,
+  BreedingPlan,
 } from '@components/breedingCalculator';
 import { useStore } from '@store';
 import {
@@ -31,6 +32,8 @@ export const BreedingPage = () => {
   const setSelectedPal = useStore((store) => store.setSelectedBreedingPal);
   const traitFilter = useStore((store) => store.breedingTraitFilter);
   const setTraitFilter = useStore((store) => store.setBreedingTraitFilter);
+  const addBreedingPlanPair = useStore((store) => store.addBreedingPlanPair);
+  const breedingPlans = useStore((store) => store.breedingPlans);
 
   const availableCombinations = React.useMemo(() => {
     if (!selectedPal) return [];
@@ -109,6 +112,23 @@ export const BreedingPage = () => {
 
   const options = PAL_NAME_LIST.sort();
 
+  // Get saved pair IDs for the selected pal
+  const savedPairIds = React.useMemo(() => {
+    if (!selectedPal) return new Set<string>();
+    const savedPairs = breedingPlans[selectedPal] || [];
+    return new Set(
+      savedPairs.map((pair) => pair.instance1.id + pair.instance2.id),
+    );
+  }, [selectedPal, breedingPlans]);
+
+  const handleSavePair = React.useCallback(
+    (pair: ViablePair) => {
+      if (!selectedPal) return;
+      addBreedingPlanPair(selectedPal, pair);
+    },
+    [selectedPal, addBreedingPlanPair],
+  );
+
   return (
     <Stack spacing={3}>
       <Typography variant="h2">Breeding Calculator</Typography>
@@ -129,6 +149,7 @@ export const BreedingPage = () => {
       >
         <Tab label="Manage Instances" />
         <Tab label="Breeding Calculator" />
+        <Tab label="Breeding Plan" />
       </Tabs>
 
       {activeTab === 0 && (
@@ -165,6 +186,9 @@ export const BreedingPage = () => {
                       viableCombination={viableCombination}
                       allInstances={palInstances}
                       traitFilter={traitFilter}
+                      targetPal={selectedPal}
+                      onSavePair={handleSavePair}
+                      savedPairIds={savedPairIds}
                     />
                   ))
                 ) : (
@@ -184,6 +208,8 @@ export const BreedingPage = () => {
           )}
         </Stack>
       )}
+
+      {activeTab === 2 && <BreedingPlan targetPal={selectedPal} />}
     </Stack>
   );
 };
