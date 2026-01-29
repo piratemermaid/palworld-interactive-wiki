@@ -22,7 +22,9 @@ type Props = {
 
 export const BreedingPlan = ({ targetPal }: Props) => {
   const breedingPlans = useStore((store) => store.breedingPlans);
-  const removeBreedingPlanPair = useStore((store) => store.removeBreedingPlanPair);
+  const removeBreedingPlanPair = useStore(
+    (store) => store.removeBreedingPlanPair,
+  );
   const clearBreedingPlan = useStore((store) => store.clearBreedingPlan);
 
   const savedPairs = useMemo(() => {
@@ -72,18 +74,14 @@ export const BreedingPlan = ({ targetPal }: Props) => {
           {savedPairs.length !== 1 ? 's' : ''})
         </Typography>
         <Tooltip title="Clear all pairs">
-          <IconButton
-            onClick={handleClearPlan}
-            color="error"
-            size="small"
-          >
+          <IconButton onClick={handleClearPlan} color="error" size="small">
             <BookmarkRemoveIcon />
           </IconButton>
         </Tooltip>
       </Box>
 
       <Stack spacing={2}>
-        {savedPairs.map((pair, index) => {
+        {savedPairs.map((pair) => {
           const pairId = pair.instance1.id + pair.instance2.id;
           return (
             <Card key={pairId} variant="outlined">

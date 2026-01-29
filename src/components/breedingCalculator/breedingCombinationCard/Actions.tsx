@@ -16,12 +16,7 @@ export const BreedingCombinationActions = ({
   onToggleExpanded,
 }: Props) => {
   return (
-    <Stack
-      direction="row"
-      alignItems="center"
-      justifyContent="flex-end"
-      gap={1}
-    >
+    <Stack direction="row" alignItems="center" justifyContent="flex-end">
       <Chip
         label={hasViablePair ? 'Viable' : 'Not Viable'}
         color={hasViablePair ? 'success' : 'error'}

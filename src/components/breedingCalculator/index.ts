@@ -4,6 +4,7 @@ export * from './BreedingAlerts';
 export * from './BreedingPalInstanceManager';
 export * from './BreedingPlan';
 export * from './BreedingWarning';
+export * from './GenderChip';
 export * from './TraitAutocomplete';
 export * from './TraitCategorySelector';
 export * from './TraitChip';

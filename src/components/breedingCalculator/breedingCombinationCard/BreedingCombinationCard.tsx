@@ -1,10 +1,11 @@
 import { useState, useMemo } from 'react';
-import { Card, CardContent, Grid } from '@mui/material';
+import { Card, CardContent, Grid, Stack } from '@mui/material';
 
 import {
   BreedingCombinationHeader,
   BreedingCombinationActions,
   BreedingCombinationExpandedContent,
+  TraitChip,
 } from '@components/breedingCalculator';
 import { getInstancesForPal } from '@utils/breeding';
 
@@ -94,18 +95,33 @@ export const BreedingCombinationCard = ({
     <Card sx={getCardStyles(hasViablePair)}>
       <CardContent>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12} sm={6}>
-            <BreedingCombinationHeader
-              combination={combination}
-              hasViablePair={hasViablePair}
-              traitFilter={traitFilter}
-              matchingTraits={matchingTraits}
-            />
+          <Grid item xs={12} sm={4} sx={{ textAlign: 'left' }}>
+            <BreedingCombinationHeader combination={combination} />
           </Grid>
           <Grid
             item
             xs={12}
-            sm={6}
+            sm={4}
+            sx={{ display: { xs: 'none', sm: 'block' } }}
+          >
+            {/* Matching traits section - hidden on mobile, shown on larger screens */}
+            {traitFilter.length > 0 && matchingTraits.length > 0 && (
+              <Stack
+                direction="row"
+                gap={0.5}
+                flexWrap="wrap"
+                justifyContent="center"
+              >
+                {matchingTraits.map(({ trait, count }) => (
+                  <TraitChip key={trait} trait={trait} count={count} />
+                ))}
+              </Stack>
+            )}
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={4}
             sx={{ textAlign: { xs: 'left', sm: 'right' } }}
           >
             <BreedingCombinationActions
