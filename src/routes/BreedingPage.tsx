@@ -44,9 +44,14 @@ export const BreedingPage = () => {
     return getViableCombinations(availableCombinations, palInstances);
   }, [availableCombinations, palInstances]);
 
-  // Filter out combinations that don't match the trait filter
+  // Filter out combinations that don't match the trait filter and don't have viable pairs
   const filteredCombinations = React.useMemo(() => {
-    if (traitFilter.length === 0) return viableCombinations;
+    // First, filter out combinations without viable pairs
+    const combinationsWithViablePairs = viableCombinations.filter(
+      (combination) => combination.hasViablePair,
+    );
+
+    if (traitFilter.length === 0) return combinationsWithViablePairs;
 
     /**
      * Check if an instance has at least one of the required traits
@@ -95,7 +100,7 @@ export const BreedingPage = () => {
       return hasParent1Match || hasParent2Match || hasViablePairMatch;
     };
 
-    return viableCombinations.filter((combination) =>
+    return combinationsWithViablePairs.filter((combination) =>
       hasMatches(combination, traitFilter),
     );
   }, [viableCombinations, traitFilter, palInstances]);

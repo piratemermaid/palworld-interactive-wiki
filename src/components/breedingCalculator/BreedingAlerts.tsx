@@ -53,7 +53,7 @@ export const BreedingAlerts = ({
         >
           <CheckCircleIcon color="success" />
           <Typography variant="subtitle1" color="success.main">
-            {viableCount} Viable Combination {viableCount !== 1 ? 's' : ''}
+            {viableCount} Viable Combination{viableCount !== 1 ? 's' : ''}
           </Typography>
         </Stack>
       )}

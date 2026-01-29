@@ -31,7 +31,7 @@ export const BreedingCombinationCard = ({
   onSavePair,
   savedPairIds,
 }: Props) => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const { combination, viablePairs, hasViablePair } = viableCombination;
 
   const toggleExpanded = () => setExpanded(!expanded);
