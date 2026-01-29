@@ -1,8 +1,8 @@
 import { PASSIVE_SKILL_TYPES } from '@data';
 
-type PassiveSkillType = (typeof PASSIVE_SKILL_TYPES)[number];
-
 declare global {
+  type PassiveSkillType = (typeof PASSIVE_SKILL_TYPES)[number];
+
   type PassiveSkillCategory = 'Base' | 'Mount' | 'Hunger' | null;
 
   type PassiveSkill = {

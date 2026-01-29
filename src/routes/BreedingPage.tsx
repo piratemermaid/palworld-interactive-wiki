@@ -13,6 +13,7 @@ import {
   BreedingPalInstanceManager,
   BreedingAlerts,
   TraitAutocomplete,
+  TraitCategorySelector,
 } from '@components/breedingCalculator';
 import { useStore } from '@store';
 import {
@@ -146,6 +147,10 @@ export const BreedingPage = () => {
 
           {selectedPal && hasAvailableCombinations && (
             <>
+              <TraitCategorySelector
+                selectedTraits={traitFilter}
+                onAddTraits={setTraitFilter}
+              />
               <TraitAutocomplete
                 selectedTraits={traitFilter}
                 onChange={setTraitFilter}

@@ -4,4 +4,5 @@ export * from './BreedingAlerts';
 export * from './BreedingPalInstanceManager';
 export * from './BreedingWarning';
 export * from './TraitAutocomplete';
+export * from './TraitCategorySelector';
 export * from './TraitChip';
