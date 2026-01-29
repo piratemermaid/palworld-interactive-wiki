@@ -4,7 +4,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { Header } from '@components/layout';
 import { useStore } from '@store';
 import { lightTheme, darkTheme } from '@styles/themes';
-import '@styles/App.css';
+import './App.css';
 
 function App() {
   const darkMode = useStore((store) => store.darkMode);
