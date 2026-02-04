@@ -45,17 +45,26 @@ export const MyPalCard = ({ palName }: Props) => {
               <Grid item>
                 <Checkbox checked={havePal} />{' '}
               </Grid>
-              <Grid item sx={{ position: 'relative', top: 6 }}>
-                <Typography variant="body2" color={havePal ? 'primary' : ''}>
-                  {palName}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color={havePal ? 'primary' : ''}
-                  sx={{ fontSize: 12 }}
-                >
-                  #{palData.paldeckNo}
-                </Typography>
+              <Grid item sx={{ position: 'relative', top: havePal ? 6 : 10 }}>
+                {havePal ? (
+                  <>
+                    <Typography
+                      variant="body2"
+                      color={havePal ? 'primary' : ''}
+                    >
+                      {palName}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color={havePal ? 'primary' : ''}
+                      sx={{ fontSize: 12 }}
+                    >
+                      #{palData.paldeckNo}
+                    </Typography>
+                  </>
+                ) : (
+                  <Typography variant="body2">#{palData.paldeckNo}</Typography>
+                )}
               </Grid>
             </Grid>
           </Grid>
