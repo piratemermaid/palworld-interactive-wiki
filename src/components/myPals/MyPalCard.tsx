@@ -26,15 +26,7 @@ export const MyPalCard = ({ palName }: Props) => {
   const haveCaughtTen = userPalsCaughtTen.includes(palName);
 
   return (
-    <Grid
-      item
-      key={palName}
-      lg={2}
-      md={3}
-      sm={6}
-      xs={12}
-      sx={{ cursor: 'pointer' }}
-    >
+    <Grid item key={palName} lg={2} md={3} sm={6} xs={12}>
       <Card sx={{ p: 1 }}>
         <Stack
           direction="row"
