@@ -11,7 +11,8 @@
     "lint": "npm run es-lint && npm run ts-lint",
     "lint:check": "npm run lint || true",
     "preview": "vite preview",
-    "format-all": "prettier --write \"./**/*.{js,jsx,ts,tsx,json,css}\""
+    "format-all": "prettier --write \"./**/*.{js,jsx,ts,tsx,json,css}\"",
+    "prepare": "husky"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -36,8 +37,19 @@
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.0",
     "prettier": "^3.2.4",
     "typescript": "~5.9.3",
     "vite": "^7.2.4"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{js,jsx,json,css}": [
+      "prettier --write"
+    ]
   }
 }
