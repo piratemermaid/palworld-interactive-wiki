@@ -47,6 +47,9 @@ export const MyPalsPage = () => {
     (store) => store.setShowUncaughtPalNames,
   );
 
+  const showEventPals = useStore((store) => store.showEventPals);
+  const setShowEventPals = useStore((store) => store.setShowEventPals);
+
   const sortBy = useStore((store) => store.myPalsSortBy);
   const setSortBy = useStore((store) => store.setMyPalsSortBy);
 
@@ -62,9 +65,20 @@ export const MyPalsPage = () => {
     }
   };
 
-  const filteredPals = !caughtFilter
-    ? PAL_NAME_LIST
-    : PAL_NAME_LIST.filter((pal) => {
+  const filteredPals = React.useMemo(() => {
+    let pals = PAL_NAME_LIST;
+
+    // Filter out event pals (paldeckNo -1) unless showEventPals is enabled
+    if (!showEventPals) {
+      pals = pals.filter((pal) => {
+        const palData = PAL_DATA[pal];
+        return palData?.paldeckNo !== '-1';
+      });
+    }
+
+    // Apply caught/uncaught filter
+    if (caughtFilter) {
+      pals = pals.filter((pal) => {
         if (caughtFilter === 'uncaught') {
           return !userPals.includes(pal);
         }
@@ -83,6 +97,16 @@ export const MyPalsPage = () => {
 
         return pal;
       });
+    }
+
+    return pals;
+  }, [
+    showEventPals,
+    caughtFilter,
+    caughtTenFilter,
+    userPals,
+    userPalsCaughtTen,
+  ]);
 
   const palsToDisplay = React.useMemo(() => {
     const pals = [...filteredPals];
@@ -96,14 +120,28 @@ export const MyPalsPage = () => {
 
     // Default: Paldeck No
     pals.sort((a, b) => {
-      const aNo = PAL_DATA[a]?.paldeckNo;
-      const bNo = PAL_DATA[b]?.paldeckNo;
+      const aData = PAL_DATA[a];
+      const bData = PAL_DATA[b];
+      const aNo = aData?.paldeckNo;
+      const bNo = bData?.paldeckNo;
 
-      // Put missing data at the end (and keep deterministic order)
+      // Put missing data at the end
       if (!aNo && !bNo)
         return a.localeCompare(b, undefined, { sensitivity: 'base' });
       if (!aNo) return 1;
       if (!bNo) return -1;
+
+      // Handle event pals (-1) - sort by eventNo if both are event pals
+      if (aNo === '-1' && bNo === '-1') {
+        const aEventNo = aData?.eventNo ?? 0;
+        const bEventNo = bData?.eventNo ?? 0;
+        if (aEventNo !== bEventNo) return aEventNo - bEventNo;
+        return a.localeCompare(b, undefined, { sensitivity: 'base' });
+      }
+
+      // Put event pals (-1) at the end, after regular pals
+      if (aNo === '-1') return 1;
+      if (bNo === '-1') return -1;
 
       const byNo = comparePaldeckNo(aNo, bNo);
       if (byNo !== 0) return byNo;
@@ -150,6 +188,14 @@ export const MyPalsPage = () => {
               >
                 <Checkbox checked={caughtFilter === 'uncaught'} />
                 Only Uncaught
+              </Grid>
+              <Grid
+                item
+                onClick={() => setShowEventPals(!showEventPals)}
+                className="hover"
+              >
+                <Checkbox checked={showEventPals} />
+                Include Event Pals (Terraria)
               </Grid>
             </Grid>
           </Grid>

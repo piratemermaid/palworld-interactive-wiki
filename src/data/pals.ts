@@ -1,7 +1,5 @@
 import { map } from 'lodash';
 
-import { PAL_WORK_SUITABILITY } from '@data/palWorkSuitability';
-
 export const PAL_DATA: PalData = {
   Lamball: {
     paldeckNo: '001',
@@ -1008,9 +1006,48 @@ export const PAL_DATA: PalData = {
     elements: ['water'],
     drops: [],
   },
+  'Blue Slime': {
+    paldeckNo: '-1',
+    elements: ['water'],
+    drops: [],
+    eventNo: 1,
+  },
+  'Green Slime': {
+    paldeckNo: '-1',
+    elements: ['grass'],
+    drops: [],
+    eventNo: 2,
+  },
+  'Illuminant Slime': {
+    paldeckNo: '-1',
+    elements: ['normal'],
+    drops: [],
+    eventNo: 3,
+  },
+  'Purple Slime': {
+    paldeckNo: '-1',
+    elements: ['dark'],
+    drops: [],
+    eventNo: 4,
+  },
+  'Rainbow Slime': {
+    paldeckNo: '-1',
+    elements: ['normal'],
+    drops: [],
+    eventNo: 5,
+  },
+  'Red Slime': {
+    paldeckNo: '-1',
+    elements: ['fire'],
+    drops: [],
+    eventNo: 6,
+  },
+  'Demon Eye': {
+    paldeckNo: '-1',
+    elements: ['dark'],
+    drops: [],
+    eventNo: 7,
+  },
 };
 
-export const PAL_NAME_LIST = map(
-  PAL_WORK_SUITABILITY,
-  (_workSuitability, name) => name,
-);
+export const PAL_NAME_LIST = map(PAL_DATA, (_palData, name) => name);

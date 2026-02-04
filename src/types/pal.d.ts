@@ -11,6 +11,7 @@ declare global {
       paldeckNo: string;
       elements: Element[];
       drops: string[];
+      eventNo?: number; // order of event pals with the same paldeckNo
     }
   >;
 }

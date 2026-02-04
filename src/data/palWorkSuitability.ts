@@ -825,4 +825,11 @@ export const PAL_WORK_SUITABILITY: PalWorkSuitabilityList = {
     { name: 'Kindling', level: 3 },
   ],
   Neptilius: [{ name: 'Watering', level: 4 }],
+  'Blue Slime': [],
+  'Green Slime': [],
+  'Illuminant Slime': [],
+  'Purple Slime': [],
+  'Rainbow Slime': [],
+  'Red Slime': [],
+  'Demon Eye': [],
 };
