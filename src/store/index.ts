@@ -31,6 +31,8 @@ type State = {
   setMyPalsCaughtTenFilter: (filter: 'caught' | 'uncaught' | null) => void;
   myPalsSortBy: 'paldeckNo' | 'name';
   setMyPalsSortBy: (sortBy: 'paldeckNo' | 'name') => void;
+  showUncaughtPalNames: boolean;
+  setShowUncaughtPalNames: (show: boolean) => void;
 
   breedingPlans: Record<PalName, ViablePair[]>;
   addBreedingPlanPair: (targetPal: PalName, pair: ViablePair) => void;
@@ -115,6 +117,8 @@ export const useStore = create<State, [['zustand/persist', State]]>(
         set({ myPalsCaughtTenFilter: filter }),
       myPalsSortBy: 'paldeckNo',
       setMyPalsSortBy: (sortBy) => set({ myPalsSortBy: sortBy }),
+      showUncaughtPalNames: false,
+      setShowUncaughtPalNames: (show) => set({ showUncaughtPalNames: show }),
 
       breedingPlans: {},
       addBreedingPlanPair: (targetPal, pair) => {

@@ -42,6 +42,11 @@ export const MyPalsPage = () => {
     (store) => store.setMyPalsCaughtTenFilter,
   );
 
+  const showUncaughtPalNames = useStore((store) => store.showUncaughtPalNames);
+  const setShowUncaughtPalNames = useStore(
+    (store) => store.setShowUncaughtPalNames,
+  );
+
   const sortBy = useStore((store) => store.myPalsSortBy);
   const setSortBy = useStore((store) => store.setMyPalsSortBy);
 
@@ -151,6 +156,14 @@ export const MyPalsPage = () => {
 
           <Grid item>
             <Grid container spacing={1} justifyContent="flex-end">
+              <Grid
+                item
+                onClick={() => setShowUncaughtPalNames(!showUncaughtPalNames)}
+                className="hover"
+              >
+                <Checkbox checked={showUncaughtPalNames} />
+                Show Uncaught Pal Names
+              </Grid>
               <Grid
                 item
                 onClick={() => setSortBy('paldeckNo')}

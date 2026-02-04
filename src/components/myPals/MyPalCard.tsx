@@ -14,6 +14,7 @@ export const MyPalCard = ({ palName }: Props) => {
   const updateUserPalsCaughtTen = useStore(
     (store) => store.updateUserPalsCaughtTen,
   );
+  const showUncaughtPalNames = useStore((store) => store.showUncaughtPalNames);
 
   const palData = PAL_DATA[palName];
 
@@ -46,7 +47,7 @@ export const MyPalCard = ({ palName }: Props) => {
                 <Checkbox checked={havePal} />{' '}
               </Grid>
               <Grid item sx={{ position: 'relative', top: havePal ? 6 : 10 }}>
-                {havePal ? (
+                {havePal || showUncaughtPalNames ? (
                   <>
                     <Typography
                       variant="body2"
