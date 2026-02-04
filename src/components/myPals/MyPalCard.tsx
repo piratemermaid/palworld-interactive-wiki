@@ -1,4 +1,4 @@
-import { Card, Checkbox, Grid, Typography } from '@mui/material';
+import { Card, Checkbox, Grid, Stack, Typography } from '@mui/material';
 
 import { useStore } from '@store';
 import { PAL_DATA } from '@data/pals';
@@ -36,54 +36,47 @@ export const MyPalCard = ({ palName }: Props) => {
       sx={{ cursor: 'pointer' }}
     >
       <Card sx={{ p: 1 }}>
-        <Grid
-          container
-          sx={{ textAlign: 'left' }}
+        <Stack
+          direction="row"
+          alignItems="center"
           justifyContent="space-between"
         >
-          <Grid item onClick={() => updateUserPals(palName)}>
-            <Grid container>
-              <Grid item>
-                <Checkbox checked={havePal} />{' '}
-              </Grid>
-              <Grid item sx={{ position: 'relative', top: havePal ? 6 : 10 }}>
-                {havePal || showUncaughtPalNames ? (
-                  <>
-                    <Typography
-                      variant="body2"
-                      color={havePal ? 'primary' : ''}
-                    >
-                      {palName}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color={havePal ? 'primary' : ''}
-                      sx={{ fontSize: 12 }}
-                    >
-                      #{palData.paldeckNo}
-                    </Typography>
-                  </>
-                ) : (
-                  <Typography variant="body2">#{palData.paldeckNo}</Typography>
-                )}
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid
-            item
-            sx={{ float: 'left', fontSize: 12 }}
-            onClick={() => updateUserPalsCaughtTen(palName)}
-          >
+          <Stack direction="row" alignItems="center">
+            <Checkbox
+              checked={havePal}
+              onChange={() => updateUserPals(palName)}
+            />
+            <Stack alignItems="flex-start">
+              {havePal || showUncaughtPalNames ? (
+                <>
+                  <Typography variant="body2" color={havePal ? 'primary' : ''}>
+                    {palName}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color={havePal ? 'primary' : ''}
+                    sx={{ fontSize: 12 }}
+                  >
+                    #{palData.paldeckNo}
+                  </Typography>
+                </>
+              ) : (
+                <Typography variant="body2">#{palData.paldeckNo}</Typography>
+              )}
+            </Stack>
+          </Stack>
+          <Stack direction="row" alignItems="center">
             <Checkbox
               checked={haveCaughtTen}
               size="small"
-              sx={{ position: 'relative', bottom: 2 }}
               color="secondary"
+              onChange={() => updateUserPalsCaughtTen(palName)}
             />
-            10
-          </Grid>
-        </Grid>
+            <Typography variant="body2" sx={{ fontSize: 12, ml: -0.5 }}>
+              Max
+            </Typography>
+          </Stack>
+        </Stack>
       </Card>
     </Grid>
   );
