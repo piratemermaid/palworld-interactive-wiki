@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Breeding data converter</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 1.5rem;
+        background: #1a1a2e;
+        color: #eaeaea;
+        min-height: 100vh;
+      }
+      h1 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+      }
+      p {
+        color: #aaa;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+      }
+      label {
+        display: block;
+        font-size: 0.85rem;
+        margin-bottom: 0.35rem;
+        color: #ccc;
+      }
+      textarea {
+        width: 100%;
+        min-height: 180px;
+        padding: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 13px;
+        background: #16213e;
+        border: 1px solid #0f3460;
+        border-radius: 6px;
+        color: #eaeaea;
+        resize: vertical;
+      }
+      textarea::placeholder {
+        color: #666;
+      }
+      .row {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+      .col {
+        flex: 1;
+        min-width: 280px;
+      }
+      button {
+        background: #e94560;
+        color: #fff;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        margin-top: 0.5rem;
+      }
+      button:hover {
+        background: #ff6b6b;
+      }
+      button.secondary {
+        background: #0f3460;
+      }
+      button.secondary:hover {
+        background: #16213e;
+      }
+      .output-wrap {
+        position: relative;
+      }
+      .copy-btn {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        margin: 0;
+      }
+      .summary {
+        font-size: 0.85rem;
+        color: #888;
+        margin-top: 0.5rem;
+      }
+      .summary.error {
+        color: #e94560;
+      }
+      .summary.ok {
+        color: #4ecca3;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Breeding data converter</h1>
+    <p>
+      Paste your breeding combos (Parent1 + Parent2 = Result). Empty parents are
+      skipped. Output is ready to paste into <code>src/data/breeding.ts</code>.
+    </p>
+
+    <div class="row">
+      <div class="col">
+        <label for="input">Pasted combos</label>
+        <textarea
+          id="input"
+          placeholder="Mau&#10;+&#10;Fuack&#10;=&#10;Flambelle&#10;Mau Cryst&#10;+&#10;Jolthog&#10;=&#10;Flambelle&#10;..."
+        ></textarea>
+      </div>
+      <div class="col">
+        <label for="output">TypeScript (paste into breeding.ts)</label>
+        <div class="output-wrap">
+          <button
+            type="button"
+            class="copy-btn secondary"
+            id="copyBtn"
+            disabled
+          >
+            Copy
+          </button>
+          <textarea
+            id="output"
+            readonly
+            placeholder="Converted output appears here…"
+          ></textarea>
+        </div>
+        <div class="summary" id="summary"></div>
+      </div>
+    </div>
+
+    <button type="button" id="convertBtn">Convert</button>
+
+    <script>
+      const inputEl = document.getElementById('input');
+      const outputEl = document.getElementById('output');
+      const copyBtn = document.getElementById('copyBtn');
+      const convertBtn = document.getElementById('convertBtn');
+      const summaryEl = document.getElementById('summary');
+
+      function parseCombos(text) {
+        const lines = text.split(/\r?\n/).map((l) => l.trim());
+        const combos = [];
+        let i = 0;
+
+        while (i < lines.length) {
+          const parent1 = lines[i];
+          i++;
+          if (i < lines.length && lines[i] === '+') {
+            i++;
+            const parent2 = i < lines.length ? lines[i] : '';
+            i++;
+            if (i < lines.length && lines[i] === '=') {
+              i++;
+              const result = i < lines.length ? lines[i] : '';
+              i++;
+              if (parent1 !== '' && parent2 !== '') {
+                combos.push({ parent1, parent2, result: result.trim() });
+              }
+            }
+          }
+        }
+
+        return combos;
+      }
+
+      function formatForBreedingTs(combos) {
+        if (combos.length === 0) return '';
+
+        const byResult = {};
+        for (const c of combos) {
+          const r = c.result || 'Unknown';
+          if (!byResult[r]) byResult[r] = [];
+          byResult[r].push(c);
+        }
+
+        const palNames = Object.keys(byResult).sort();
+        const parts = palNames.map((pal) => {
+          const needQuotes = pal.includes(' ');
+          const key = needQuotes ? `'${pal}'` : pal;
+          const entries = byResult[pal]
+            .map(
+              (c) =>
+                `    { parent1: '${c.parent1.replace(/'/g, "\\'")}', parent2: '${c.parent2.replace(/'/g, "\\'")}' }`,
+            )
+            .join(',\n');
+          return `  ${key}: [\n${entries}\n  ]`;
+        });
+
+        return parts.join(',\n');
+      }
+
+      function updateSummary(combos, skipped) {
+        if (combos.length === 0 && skipped === 0) {
+          summaryEl.textContent =
+            'No valid combos found. Use the format: Parent1, +, Parent2, =, Result (5 lines per combo).';
+          summaryEl.className = 'summary error';
+          return;
+        }
+        const byResult = {};
+        for (const c of combos) {
+          byResult[c.result] = (byResult[c.result] || 0) + 1;
+        }
+        const parts = Object.entries(byResult)
+          .map(([pal, n]) => `${pal}: ${n}`)
+          .join('; ');
+        summaryEl.textContent = `Added ${combos.length} combos (${parts}).${skipped ? ` Skipped ${skipped} with empty parent(s).` : ''}`;
+        summaryEl.className = 'summary ok';
+      }
+
+      convertBtn.addEventListener('click', () => {
+        const text = inputEl.value;
+        const all = parseCombos(text);
+        const totalGroups = (text.match(/\+\s*\n/g) || []).length;
+        const skipped = totalGroups - all.length;
+        const out = formatForBreedingTs(all);
+        outputEl.value = out;
+        copyBtn.disabled = !out;
+        updateSummary(all, skipped);
+      });
+
+      copyBtn.addEventListener('click', () => {
+        outputEl.select();
+        document.execCommand('copy');
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => {
+          copyBtn.textContent = 'Copy';
+        }, 1500);
+      });
+    </script>
+  </body>
+</html>
