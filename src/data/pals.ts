@@ -66,6 +66,11 @@ export const PAL_DATA: PalData = {
     elements: ['water', 'ice'],
     drops: [],
   },
+  'Penking Lux': {
+    paldeckNo: '011b',
+    elements: ['water', 'electric'],
+    drops: [],
+  },
   Jolthog: {
     paldeckNo: '012',
     elements: ['electric'],
@@ -78,11 +83,6 @@ export const PAL_DATA: PalData = {
   },
   Gumoss: {
     paldeckNo: '013',
-    elements: ['grass', 'ground'],
-    drops: [],
-  },
-  'Gumoss (Flower)': {
-    paldeckNo: '013b',
     elements: ['grass', 'ground'],
     drops: [],
   },
@@ -133,6 +133,11 @@ export const PAL_DATA: PalData = {
   },
   Killamari: {
     paldeckNo: '023',
+    elements: ['dark', 'water'],
+    drops: [],
+  },
+  'Killamari Primo': {
+    paldeckNo: '023b',
     elements: ['dark', 'water'],
     drops: [],
   },
@@ -294,6 +299,11 @@ export const PAL_DATA: PalData = {
   Loupmoon: {
     paldeckNo: '046',
     elements: ['dark'],
+    drops: [],
+  },
+  'Loupmoon Cryst': {
+    paldeckNo: '046b',
+    elements: ['ice'],
     drops: [],
   },
   Galeclaw: {
